@@ -1,0 +1,45 @@
+#application.yml配置文件中严格区别缩进空格
+server:
+  port: 8080
+
+spring:
+  # 数据源 配置
+  datasource:
+    # 连接池类型 配置
+    type: com.zaxxer.hikari.HikariDataSource
+    # MySQL 配置
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/clonemtnet?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+  # 模板引擎 thymeleaf 配置
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+
+# Mybatis 配置
+mybatis:
+  mapper-locations: classpath*:sql/*.xml
+  type-aliases-package: classpath*:com.leeyunt.clonemtnet.entity
+
+# Mybatis-plus 配置
+#mybatis-plus:
+#  mapper-locations: classpath:com/leeyunt/blogapi/mapper/sql/*.xml
+#  type-aliases-package: classpath:com.leeyunt.blogapi.entity
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #这个配置会将执行的sql打印出来
+
+# Swagger界面内容配置 项目启动后访问：http://${host}:${port}/swagger-ui.html
+# Swagger-bootstrap-ui：http://${host}:${port}/doc.html
+swagger:
+  title: 毕业设计API接口文档 #标题
+  description: 👨‍💻毕业设计系统API接口文档💯 #描述
+  version: 0.0.1 #版本
+  termsOfServiceUrl: clonemtnet.leeyunt.top #这里配置是服务网站
+  contact:  #三个参数依次是姓名，个人网站，邮箱
+    name: leeyunt
+    url: http://www.leeyunt.top
+    email: 924721970@qq.com
