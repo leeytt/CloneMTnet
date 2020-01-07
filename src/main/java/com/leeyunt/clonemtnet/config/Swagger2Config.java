@@ -20,13 +20,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * Swagger2 配置类
  *
  * @author leeyunt
- * @since 2019/8/14
+ * @since 2020/01/07
  */
 @Configuration
 @EnableSwagger2
 @EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration.class)
 public class Swagger2Config {
+    @Value("${swagger.basePackageController}")
+    private String basePackageController;
+
     @Value("${swagger.title}")
     private String title;
 
@@ -54,7 +57,7 @@ public class Swagger2Config {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.leeyunt.clonemtnet.controller"))    //controller路径
+                .apis(RequestHandlerSelectors.basePackage(basePackageController))    //controller路径
                 .paths(PathSelectors.any())
                 .build();
     }

@@ -1,6 +1,9 @@
 #application.yml配置文件中严格区别缩进空格
 server:
   port: 8080
+  servlet:
+    context-path: /clonemtnet
+
 
 spring:
   # 数据源 配置
@@ -32,13 +35,14 @@ mybatis:
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #这个配置会将执行的sql打印出来
 
-# Swagger界面内容配置 项目启动后访问：http://${host}:${port}/swagger-ui.html
-# Swagger-bootstrap-ui：http://${host}:${port}/doc.html
+# Swagger界面内容配置 项目启动后访问：http://${host}:${port}/${context-path}/swagger-ui.html
+# Swagger-bootstrap-ui：http://${host}:${port}/${context-path}/doc.html
 swagger:
+  basePackageController: com.leeyunt.clonemtnet.controller #controller路径
   title: 毕业设计API接口文档 #标题
   description: 👨‍💻毕业设计系统API接口文档💯 #描述
   version: 0.0.1 #版本
-  termsOfServiceUrl: clonemtnet.leeyunt.top #这里配置是服务网站
+  termsOfServiceUrl: http://clonemtnet.leeyunt.top #这里配置是服务网站
   contact:  #三个参数依次是姓名，个人网站，邮箱
     name: leeyunt
     url: http://www.leeyunt.top
