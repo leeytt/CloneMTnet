@@ -22,6 +22,10 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
+  security:
+    user:
+      name: admin
+      password: 123456
 
 # Mybatis 配置
 mybatis:

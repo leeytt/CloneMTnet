@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leeyunt.clonemtnet.dao.UserDao">
-
-    <!-- 开启二级缓存 -->
-    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
-
+    <cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>
+    <!--根据用户名查找-->
+    <select id="findByUsername" parameterType="string" resultType="com.leeyunt.clonemtnet.entity.User">select * from sys_user where username=#{username}</select>
 </mapper>

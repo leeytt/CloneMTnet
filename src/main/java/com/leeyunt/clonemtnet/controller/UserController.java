@@ -3,6 +3,7 @@ package com.leeyunt.clonemtnet.controller;
 
 import com.leeyunt.clonemtnet.entity.User;
 import com.leeyunt.clonemtnet.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,7 @@ import java.util.List;
  * @author leeyunt
  * @since 2020-01-02
  */
+@Api(tags = "运营后台用户表")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -29,7 +31,7 @@ public class UserController {
      * 获取用户列表
      * @return List<User>
      */
-    @GetMapping("/getAll")
+    @GetMapping("/userList")
     @ApiOperation(value = "获取列表", notes = "获取所有记录")
     public List<User> getAll(){
         return userService.list();

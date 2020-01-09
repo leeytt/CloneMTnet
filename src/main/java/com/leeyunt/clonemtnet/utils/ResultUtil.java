@@ -4,6 +4,8 @@ import com.leeyunt.clonemtnet.exception.BaseException;
 import com.leeyunt.clonemtnet.exception.StatusEnum;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  *
  * 统一定义返回结果类
@@ -12,7 +14,10 @@ import lombok.Data;
  * @since 2020/01/07
  */
 @Data
-public class ResultUtil {
+public class ResultUtil implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * 返回状态码
      */
@@ -31,7 +36,7 @@ public class ResultUtil {
     /**
      * 无参构造函数
      */
-    private ResultUtil() {
+    public ResultUtil() {
 
     }
 

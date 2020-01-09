@@ -2,6 +2,7 @@ package com.leeyunt.clonemtnet.service;
 
 import com.leeyunt.clonemtnet.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.leeyunt.clonemtnet.utils.ResultUtil;
 
 /**
  * <p>
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-01-02
  */
 public interface UserService extends IService<User> {
+
+    ResultUtil checkLogin(String username, String password);
 
 }
