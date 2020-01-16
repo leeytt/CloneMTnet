@@ -3,5 +3,7 @@
 <mapper namespace="com.leeyunt.clonemtnet.dao.UserDao">
     <cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>
     <!--根据用户名查找-->
-    <select id="findByUsername" parameterType="string" resultType="com.leeyunt.clonemtnet.entity.User">select * from sys_user where username=#{username}</select>
+    <select id="findByUsername" parameterType="string" resultType="User">
+        select * from sys_user where username=#{username}
+    </select>
 </mapper>

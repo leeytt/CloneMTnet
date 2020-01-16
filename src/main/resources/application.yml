@@ -4,7 +4,6 @@ server:
   servlet:
     context-path: /clonemtnet
 
-
 spring:
   # 数据源 配置
   datasource:
@@ -22,20 +21,21 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
+  # security 安全 配置
   security:
     user:
       name: admin
       password: 123456
 
 # Mybatis 配置
-mybatis:
-  mapper-locations: classpath*:sql/*.xml
-  type-aliases-package: classpath*:com.leeyunt.clonemtnet.entity
+#mybatis:
+#  mapper-locations: classpath*:sql/*.xml
+#  type-aliases-package: classpath*:com.leeyunt.clonemtnet.entity
 
 # Mybatis-plus 配置
 #mybatis-plus:
-#  mapper-locations: classpath:com/leeyunt/blogapi/mapper/sql/*.xml
-#  type-aliases-package: classpath:com.leeyunt.blogapi.entity
+#  mapper-locations: classpath*:sql/*.xml
+#  type-aliases-package: classpath*:com.leeyunt.clonemtnet.entity
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #这个配置会将执行的sql打印出来
 
