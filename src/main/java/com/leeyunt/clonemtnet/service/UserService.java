@@ -13,7 +13,9 @@ import com.leeyunt.clonemtnet.utils.ResultUtil;
  * @since 2020-01-02
  */
 public interface UserService extends IService<User> {
-
+    /**
+     * 登录检查
+     */
     ResultUtil checkLogin(String username, String password);
 
 }

@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-01-02
  */
 public interface UserDao extends BaseMapper<User> {
-
+    /**
+     * 登录检查
+     */
     User findByUsername(String username);
 }

@@ -3,9 +3,7 @@ package com.leeyunt.clonemtnet.controller;
 import com.leeyunt.clonemtnet.service.UserService;
 import com.leeyunt.clonemtnet.utils.ResultUtil;
 import com.leeyunt.clonemtnet.utils.VerifyCodeUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,20 +29,21 @@ public class UserAuthController {
     private UserService userService;
 
     /**
-     * 登陆
+     * 登录
      * @param username
      * @param password
      * @return User
      */
     @PostMapping("/login")
-	@ApiOperation(value="登陆",notes="根据用户名和密码登陆")
-	public ResultUtil getByUsernamePasswordLogin(
-			@ApiParam(value = "用户名",required=false) @RequestParam(required=false) String username,
-			@ApiParam(value = "密码",required=false) @RequestParam(required=false) String password
-			){
-		ResultUtil apiresult = new ResultUtil();
-		apiresult = userService.checkLogin(username, password);
-		return apiresult;
+	@ApiOperation(value="登录",notes="根据用户名和密码登录")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "账号", defaultValue = "admin", required = true),
+            @ApiImplicitParam(name = "password", value = "密码", defaultValue = "123456", required = true)
+    })
+	public ResultUtil getByUsernamePasswordLogin(@RequestParam("username") String username, @RequestParam("password") String password){
+        /*登录检查*/
+        ResultUtil resultUtil = userService.checkLogin(username, password);
+		return resultUtil;
 	}
 
     /**

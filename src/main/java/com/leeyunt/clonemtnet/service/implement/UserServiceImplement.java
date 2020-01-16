@@ -23,7 +23,7 @@ public class UserServiceImplement extends ServiceImpl<UserDao, User> implements 
     private UserDao userDao;
 
     /**
-     * 登陆检查
+     * 登录检查
      */
     @Override
     public ResultUtil checkLogin(String username, String password) {
@@ -33,8 +33,7 @@ public class UserServiceImplement extends ServiceImpl<UserDao, User> implements 
             resultUtil.setMsg("用户名不能为空");
             return resultUtil;
         }else {
-            User user = new User();
-            user = userDao.findByUsername(username);
+            User user = userDao.findByUsername(username);
             if (null == user) {
                 resultUtil.setCode(0);
                 resultUtil.setMsg("用户不存在");
@@ -42,7 +41,7 @@ public class UserServiceImplement extends ServiceImpl<UserDao, User> implements 
             }else {
                 if (user.getPassword().equals(password)) {
                     resultUtil.setCode(200);
-                    resultUtil.setMsg("成功");
+                    resultUtil.setMsg("登录成功");
                     resultUtil.setData(user);
                     return resultUtil;
                 }else {
