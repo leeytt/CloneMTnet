@@ -6,7 +6,15 @@
 #### 后台管理-接口
 |接口名称|接口地址|请求方式|
 | :- | -: | -: |
-| 用户管理 | user/getAll | get |
+| 登录授权 | 
+| 登录 | userAuth/login | post |
+| 获取验证码 | userAuth/verCode | get |
+| 用户管理 | 
+| 用户列表 | user/userList | get |
+| 添加用户 | user/addUser | post |
+| 更新用户 | user/updateUser | put |
+| 查询用户 | user/{id} | get |
+| 删除用户 | user/{id} | delete |
 
 ##### sql文件：该项目sql目录下
 * clonemtnet.sql : 表
