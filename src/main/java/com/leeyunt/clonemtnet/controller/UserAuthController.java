@@ -1,9 +1,16 @@
 package com.leeyunt.clonemtnet.controller;
 
+import com.leeyunt.clonemtnet.security.CommonConstant;
+import com.leeyunt.clonemtnet.security.JwtTokenUtil;
+import com.leeyunt.clonemtnet.security.UserDetails;
 import com.leeyunt.clonemtnet.service.UserService;
 import com.leeyunt.clonemtnet.utils.ResultUtil;
 import com.leeyunt.clonemtnet.utils.VerifyCodeUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +28,7 @@ import java.io.IOException;
  * @author leeyunt
  * @since 2020-01-09
  */
+@Slf4j
 @Api(tags = "用户授权")
 @RestController
 @RequestMapping("/userAuth")
@@ -28,13 +36,35 @@ public class UserAuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    /**
+     * 测试token
+     */
+    @GetMapping("/testToken")
+    public String test(String what){
+        log.info("通过权限认证");
+        return String.format("hello request test %s",what);
+    }
+
+    @GetMapping("/login")
+    public String loginTest(String username){
+        log.info("不需要权限校验..成功");
+        /*查询数据库*/
+        UserDetails userDetails = userService.loadUserByUsername(username);
+        String token = jwtTokenUtil.generateToken(userDetails);
+        return String.format(String.format("%s %s", CommonConstant.TOKEN_PREFIX,token));
+    }
+
+
     /**
      * 登录
      * @param username
      * @param password
      * @return User
      */
-    @PostMapping("/login")
+    @PostMapping("/dologin")
 	@ApiOperation(value="登录",notes="根据用户名和密码登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "账号", defaultValue = "admin", required = true),
@@ -48,7 +78,6 @@ public class UserAuthController {
 
     /**
      * 获取验证码
-     * @return
      */
     @GetMapping("/verCode")
     @ApiOperation(value = "获取验证码", notes = "获取验证码")
