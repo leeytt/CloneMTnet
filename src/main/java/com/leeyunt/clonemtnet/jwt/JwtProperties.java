@@ -1,4 +1,4 @@
-package com.leeyunt.clonemtnet.security;
+package com.leeyunt.clonemtnet.jwt;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

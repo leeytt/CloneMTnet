@@ -1,11 +1,17 @@
-package com.leeyunt.clonemtnet.security;
+package com.leeyunt.clonemtnet.config;
 
-import com.leeyunt.clonemtnet.service.implement.UserServiceImplement;
+import com.leeyunt.clonemtnet.jwt.JwtTokenFilter;
+import com.leeyunt.clonemtnet.security.RestAuthenticationEntryPoint;
+import com.leeyunt.clonemtnet.security.RestfulAccessDeniedHandler;
+import com.leeyunt.clonemtnet.security.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -22,10 +28,14 @@ import java.util.List;
  * @author leeyunt
  * @since 2020/01/17
  */
+
+@EnableConfigurationProperties(value = {IgnoreUrlsSecurityConfig.class})
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled=true) //允许开启security的方法级别的安全
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private UserServiceImplement userServiceImplement;
+    private UserDetailServiceImpl userDetailService;
 
     @Autowired
     private JwtTokenFilter jwtTokenFilter;
@@ -47,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
-        auth.userDetailsService( userServiceImplement ).passwordEncoder( new BCryptPasswordEncoder() );
+        auth.userDetailsService( userDetailService ).passwordEncoder( new BCryptPasswordEncoder() );
     }
 
     /**

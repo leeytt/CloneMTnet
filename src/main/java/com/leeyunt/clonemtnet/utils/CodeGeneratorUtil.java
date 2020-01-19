@@ -57,7 +57,7 @@ public class CodeGeneratorUtil {
         gc.setMapperName("%sDao");
 //        gc.setXmlName("%sSqlMap");
         gc.setServiceName("%sService");
-        gc.setServiceImplName("%sServiceImplement");
+        gc.setServiceImplName("%sServiceImpl");
         gc.setControllerName("%sController");
         gc.setSwagger2(true); //实体属性 Swagger2 注解
         mpg.setGlobalConfig(gc);
@@ -76,7 +76,7 @@ public class CodeGeneratorUtil {
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("模块名"));
         pc.setParent("com.leeyunt.clonemtnet");
-        pc.setServiceImpl("service.implement");
+        pc.setServiceImpl("service.impl");
         pc.setMapper("dao");
         mpg.setPackageInfo(pc);
 

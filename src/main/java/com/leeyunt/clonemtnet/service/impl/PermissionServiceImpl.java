@@ -1,4 +1,4 @@
-package com.leeyunt.clonemtnet.service.implement;
+package com.leeyunt.clonemtnet.service.impl;
 
 import com.leeyunt.clonemtnet.entity.Permission;
 import com.leeyunt.clonemtnet.dao.PermissionDao;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-01-02
  */
 @Service
-public class PermissionServiceImplement extends ServiceImpl<PermissionDao, Permission> implements PermissionService {
+public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission> implements PermissionService {
 
 }

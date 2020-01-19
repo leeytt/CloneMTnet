@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.leeyunt.clonemtnet.dao.UserDao">
     <cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="User">
+        <result column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="nickname" property="nickname" />
+        <result column="role_id" property="roleId" />
+        <result column="headImg_url" property="headimgUrl" />
+        <result column="phone" property="phone" />
+        <result column="email" property="email" />
+        <result column="birthday" property="birthday" />
+        <result column="sex" property="sex" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, nickname, role_id, headImg_url, phone, email, birthday, sex, create_time, update_time, status
+    </sql>
 
     <!--登录检查-->
     <select id="findByUsername" parameterType="string" resultType="User">

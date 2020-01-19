@@ -39,8 +39,8 @@ jwt:
   tokenHeader: token
   # JWT加解密使用的密钥
   secret: jwt_secret_2020
-  # JWT的过期时间(单位:s)
-  expiration: 86400 #一天
+  # JWT的过期时间(单位:s) #一天
+  expiration: 86400
 
 # Mybatis 配置
 #mybatis:

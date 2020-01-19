@@ -1,8 +1,8 @@
 package com.leeyunt.clonemtnet.controller;
 
-import com.leeyunt.clonemtnet.security.CommonConstant;
-import com.leeyunt.clonemtnet.security.JwtTokenUtil;
-import com.leeyunt.clonemtnet.security.UserDetails;
+import com.leeyunt.clonemtnet.constant.CommonConstant;
+import com.leeyunt.clonemtnet.jwt.JwtTokenUtil;
+import com.leeyunt.clonemtnet.security.UserDetailServiceImpl;
 import com.leeyunt.clonemtnet.service.UserService;
 import com.leeyunt.clonemtnet.utils.ResultUtil;
 import com.leeyunt.clonemtnet.utils.VerifyCodeUtil;
@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,9 @@ public class UserAuthController {
     private UserService userService;
 
     @Autowired
+    private UserDetailServiceImpl userDetailService;
+
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     /**
@@ -52,7 +56,7 @@ public class UserAuthController {
     public String loginTest(String username){
         log.info("不需要权限校验..成功");
         /*查询数据库*/
-        UserDetails userDetails = userService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailService.loadUserByUsername(username);
         String token = jwtTokenUtil.generateToken(userDetails);
         return String.format(String.format("%s %s", CommonConstant.TOKEN_PREFIX,token));
     }
@@ -89,4 +93,5 @@ public class UserAuthController {
         session.setAttribute("index_code", text);
         VerifyCodeUtil.output(image, resp.getOutputStream());
     }
+
 }

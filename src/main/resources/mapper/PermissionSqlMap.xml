@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.leeyunt.clonemtnet.dao.PermissionDao">
     <cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="Permission">
+        <result column="id" property="id" />
+        <result column="parentId" property="parentId" />
+        <result column="menu_code" property="menuCode" />
+        <result column="menu_name" property="menuName" />
+        <result column="sort" property="sort" />
+        <result column="permission_code" property="permissionCode" />
+        <result column="permission_name" property="permissionName" />
+        <result column="required_permission" property="requiredPermission" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, parentId, menu_code, menu_name, sort, permission_code, permission_name, required_permission
+    </sql>
 
 </mapper>

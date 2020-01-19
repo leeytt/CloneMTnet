@@ -2,7 +2,6 @@ package com.leeyunt.clonemtnet.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.leeyunt.clonemtnet.entity.User;
-import com.leeyunt.clonemtnet.security.UserDetails;
 import com.leeyunt.clonemtnet.utils.ResultUtil;
 
 /**
@@ -18,7 +17,5 @@ public interface UserService extends IService<User> {
      * 登录检查
      */
     ResultUtil checkLogin(String username, String password);
-
-    UserDetails loadUserByUsername(String username);
 
 }

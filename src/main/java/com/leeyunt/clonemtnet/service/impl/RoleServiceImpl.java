@@ -1,4 +1,4 @@
-package com.leeyunt.clonemtnet.service.implement;
+package com.leeyunt.clonemtnet.service.impl;
 
 import com.leeyunt.clonemtnet.entity.Role;
 import com.leeyunt.clonemtnet.dao.RoleDao;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-01-02
  */
 @Service
-public class RoleServiceImplement extends ServiceImpl<RoleDao, Role> implements RoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleService {
 
 }

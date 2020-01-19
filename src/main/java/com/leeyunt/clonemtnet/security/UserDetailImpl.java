@@ -5,11 +5,19 @@ import com.leeyunt.clonemtnet.entity.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ *
+ * 实现spring security的userDetail
+ *
+ * @author leeyunt
+ * @since 2020/01/19
+ */
 @Data
 public class UserDetailImpl implements UserDetails {
 
@@ -17,6 +25,11 @@ public class UserDetailImpl implements UserDetails {
      * 用户信息(基本信息)
      */
     private User user;
+
+    /**
+     * 角色信息
+     */
+    private Role role;
 
     /**
      * 用户角色列表
@@ -31,9 +44,10 @@ public class UserDetailImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roleList) {
-            authorities.add(new SimpleGrantedAuthority(role.getRoleName() ) );
-        }
+//        for (Role role : roleList) {
+//            authorities.add(new SimpleGrantedAuthority(role.getRoleName() ) );
+//        }
+        authorities.add(new SimpleGrantedAuthority(role.getRoleName() ) );
         return authorities;
     }
 

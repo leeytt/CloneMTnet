@@ -1,4 +1,4 @@
-package com.leeyunt.clonemtnet.service.implement;
+package com.leeyunt.clonemtnet.service.impl;
 
 import com.leeyunt.clonemtnet.entity.Article;
 import com.leeyunt.clonemtnet.dao.ArticleDao;
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-01-02
  */
 @Service
-public class ArticleServiceImplement extends ServiceImpl<ArticleDao, Article> implements ArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article> implements ArticleService {
 
 }

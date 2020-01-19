@@ -1,11 +1,13 @@
-package com.leeyunt.clonemtnet.security;
+package com.leeyunt.clonemtnet.jwt;
 
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
-import com.leeyunt.clonemtnet.service.implement.UserServiceImplement;
+import com.leeyunt.clonemtnet.constant.CommonConstant;
+import com.leeyunt.clonemtnet.security.UserDetailServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,7 +29,7 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
-    private UserServiceImplement userServiceImplement;
+    private UserDetailServiceImpl userDetailService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -46,7 +48,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             String username = jwtTokenUtil.getUserNameFromToken(authToken);
             if (ObjectUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
                 /*获取到用户信息*/
-                UserDetails userDetails = userServiceImplement.loadUserByUsername(username);
+                UserDetails userDetails = userDetailService.loadUserByUsername(username);
                 /*校验token是否过期*/
                 if (jwtTokenUtil.validateToken(authToken,userDetails)) {
                     log.info("token未过期,token:[{}],用户名:[{}]",authToken,username);
