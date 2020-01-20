@@ -78,6 +78,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         /*允许跨域请求的OPTIONS请求*/
         registry.antMatchers(HttpMethod.OPTIONS)
                 .permitAll();
+        /*允许Swagger文档请求*/
+        registry.antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/configuration/ui").permitAll()
+                .antMatchers("/configuration/security").permitAll()
+                .antMatchers("/doc.html").permitAll();
         /*任何请求需要身份认证*/
         registry.and()
                 .authorizeRequests()
