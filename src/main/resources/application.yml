@@ -66,3 +66,10 @@ swagger:
     name: leeyunt
     url: http://www.leeyunt.top
     email: 924721970@qq.com
+
+# 配置日志
+#logging:
+#  pattern:
+#    console: "%d - %msg%n"
+#  file:
+#    path: /Users/leeyunt/logs/tomcat/
