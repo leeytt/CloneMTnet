@@ -81,8 +81,18 @@ public class ResultUtil implements Serializable {
      * @param msg 返回消息
      * @return ResultUtil
      */
-    public static ResultUtil ofMsg(String msg) {
+    public static ResultUtil ofSuccessMsg(String msg) {
         return of(StatusEnum.OK_200.getCode(), msg, null);
+    }
+
+    /**
+     * 构造一个失败且自定义消息的API返回
+     *
+     * @param msg 返回消息
+     * @return ResultUtil
+     */
+    public static ResultUtil ofFailMsg(String msg) {
+        return of(StatusEnum.FAIL.getCode(), msg, null);
     }
 
     /**

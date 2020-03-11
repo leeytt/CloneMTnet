@@ -1,8 +1,5 @@
 package com.leeyunt.clonemtnet.controller;
 
-import com.leeyunt.clonemtnet.constant.CommonConstant;
-import com.leeyunt.clonemtnet.jwt.JwtTokenUtil;
-import com.leeyunt.clonemtnet.security.UserDetailServiceImpl;
 import com.leeyunt.clonemtnet.service.UserService;
 import com.leeyunt.clonemtnet.utils.ResultUtil;
 import com.leeyunt.clonemtnet.utils.VerifyCodeUtil;
@@ -12,7 +9,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,29 +33,26 @@ public class UserAuthController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserDetailServiceImpl userDetailService;
+//    /**
+//     * 测试通过权限认证
+//     */
+//    @GetMapping("/TestLoginPass")
+//    public String test(String what){
+//        log.info("通过权限认证");
+//        return String.format("hello request test %s",what);
+//    }
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    /**
-     * 测试token
-     */
-    @GetMapping("/testToken")
-    public String test(String what){
-        log.info("通过权限认证");
-        return String.format("hello request test %s",what);
-    }
-
-    @GetMapping("/login")
-    public String loginTest(String username){
-        log.info("不需要权限校验..成功");
-        /*查询数据库*/
-        UserDetails userDetails = userDetailService.loadUserByUsername(username);
-        String token = jwtTokenUtil.generateToken(userDetails);
-        return String.format(String.format("%s %s", CommonConstant.TOKEN_PREFIX,token));
-    }
+//    /**
+//     * 获取token
+//     */
+//    @GetMapping("/getToken")
+//    public String login(String username){
+//        log.info("不需要权限校验..成功");
+//        /*查询数据库*/
+//        UserDetails userDetails = userDetailService.loadUserByUsername(username);
+//        String token = jwtTokenUtil.generateToken(userDetails);
+//        return String.format(String.format("%s %s", CommonConstant.TOKEN_PREFIX,token));
+//    }
 
 
     /**
@@ -68,16 +61,15 @@ public class UserAuthController {
      * @param password
      * @return User
      */
-    @PostMapping("/dologin")
-	@ApiOperation(value="登录",notes="根据用户名和密码登录")
+    @PostMapping("/login")
+	@ApiOperation(value="登录",notes="根据用户名和密码获取token")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "账号", defaultValue = "admin", required = true),
             @ApiImplicitParam(name = "password", value = "密码", defaultValue = "123456", required = true)
     })
 	public ResultUtil getByUsernamePasswordLogin(@RequestParam("username") String username, @RequestParam("password") String password){
         /*登录检查*/
-        ResultUtil resultUtil = userService.checkLogin(username, password);
-		return resultUtil;
+        return userService.checkLogin(username, password);
 	}
 
     /**
