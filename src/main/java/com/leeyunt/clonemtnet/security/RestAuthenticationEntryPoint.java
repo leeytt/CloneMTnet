@@ -1,5 +1,6 @@
 package com.leeyunt.clonemtnet.security;
 
+import com.leeyunt.clonemtnet.utils.ResultUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -23,7 +24,8 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println("未登录..请登录!");
+//        response.getWriter().println("未登录..请登录!");
+        response.getWriter().print(ResultUtil.ofFailMsg("未登录..请登录!"));
         response.getWriter().flush();
 
     }

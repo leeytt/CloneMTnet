@@ -46,7 +46,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
         /*通过role_id查询角色信息*/
         if(ObjectUtils.isNotEmpty(user.getRoleId())){
             QueryWrapper<Role> ew = new QueryWrapper<>();
-//            ew.last(String.format("inner join user_role ur on id = ur.role_id where ur.user_id = %s",user.getId()));
             ew.eq("id",user.getRoleId());
             ew.last("limit 1");
             Role role = Optional.ofNullable(roleDao.selectOne(ew)).orElse(new Role());

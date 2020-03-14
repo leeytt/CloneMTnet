@@ -31,7 +31,7 @@ spring:
 security:
   ignore:
     urls:
-      - /userAuth/login
+      - /userAuth/auth
 
 # jwt 配置
 jwt:
@@ -54,7 +54,7 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #这个配置会将执行的sql打印出来
 
-# Swagger界面内容配置 项目启动后访问：http://${host}:${port}/${context-path}/swagger-ui.html
+  # Swagger界面内容配置 项目启动后访问：http://${host}:${port}/${context-path}/swagger-ui.html
 # Swagger-bootstrap-ui：http://${host}:${port}/${context-path}/doc.html
 swagger:
   basePackageController: com.leeyunt.clonemtnet.controller #controller路径

@@ -33,6 +33,38 @@ public class UserAuthController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 授权
+     * @param username
+     * @param password
+     * @return User
+     */
+    @PostMapping("/auth")
+	@ApiOperation(value="授权",notes="根据用户名和密码获取token")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "账号", defaultValue = "admin", required = true),
+            @ApiImplicitParam(name = "password", value = "密码", defaultValue = "123456", required = true)
+    })
+	public ResultUtil getByUsernamePasswordLogin(@RequestParam("username") String username, @RequestParam("password") String password){
+        /*登录检查*/
+        return userService.checkLogin(username, password);
+	}
+
+    /**
+     * 获取当前登录用户的信息（角色、权限、菜单）
+     */
+    @GetMapping("/getUserInfo")
+    @ApiOperation(value="获取用户信息",notes="登录成功后获取用户信息（角色、权限、菜单）")
+    @ApiImplicitParam(name = "username", value = "用户名", defaultValue = "admin", required = true)
+    public ResultUtil getUserInfo(@RequestParam("username") String username) {
+        return userService.getOneUser(username);
+    }
+
+    /**
+     * 登出
+     */
+
+
 //    /**
 //     * 测试通过权限认证
 //     */
@@ -53,24 +85,6 @@ public class UserAuthController {
 //        String token = jwtTokenUtil.generateToken(userDetails);
 //        return String.format(String.format("%s %s", CommonConstant.TOKEN_PREFIX,token));
 //    }
-
-
-    /**
-     * 登录
-     * @param username
-     * @param password
-     * @return User
-     */
-    @PostMapping("/login")
-	@ApiOperation(value="登录",notes="根据用户名和密码获取token")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "账号", defaultValue = "admin", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", defaultValue = "123456", required = true)
-    })
-	public ResultUtil getByUsernamePasswordLogin(@RequestParam("username") String username, @RequestParam("password") String password){
-        /*登录检查*/
-        return userService.checkLogin(username, password);
-	}
 
     /**
      * 获取验证码

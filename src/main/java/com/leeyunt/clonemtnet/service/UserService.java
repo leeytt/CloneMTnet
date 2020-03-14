@@ -18,4 +18,8 @@ public interface UserService extends IService<User> {
      */
     ResultUtil checkLogin(String username, String password);
 
+    /**
+     * 获取当前登录用户的信息（角色、权限、菜单）
+     * */
+    ResultUtil getOneUser(String username);
 }

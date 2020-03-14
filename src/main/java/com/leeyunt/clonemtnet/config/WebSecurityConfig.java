@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
-        auth.userDetailsService( userDetailService ).passwordEncoder( new BCryptPasswordEncoder() );
+        auth.userDetailsService( userDetailService ).passwordEncoder( new BCryptPasswordEncoder() );//密码编码工具,非常方便的实现密码的加密加盐
     }
 
     /**
@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity ) throws Exception {
 
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity
-                .authorizeRequests();
+                .authorizeRequests();//开启登录配置
         List<String> ignoreUrlList = ignoreUrlsSecurityConfig.getUrls();
         /*不需要保护的资源路径允许访问*/
         for (String url :ignoreUrlList) {

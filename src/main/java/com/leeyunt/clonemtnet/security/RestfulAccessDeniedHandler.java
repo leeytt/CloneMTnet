@@ -1,5 +1,6 @@
 package com.leeyunt.clonemtnet.security;
 
+import com.leeyunt.clonemtnet.utils.ResultUtil;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -22,7 +23,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
                        AccessDeniedException e) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().println("权限不足..");
+        response.getWriter().print(ResultUtil.ofFailMsg("权限不足.."));
         response.getWriter().flush();
     }
 }
