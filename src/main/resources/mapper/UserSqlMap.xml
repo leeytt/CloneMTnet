@@ -30,4 +30,38 @@
         select * from sys_user where username=#{username}
     </select>
 
+    <!--获取当前登录用户的信息（角色、权限、菜单）-->
+    <select id="getUserInfo" resultMap="userInfoMap">
+        SELECT
+            u.id as userId,
+            u.username,
+            u.nickname,
+            u.role_id as roleId,
+            r.role_name as roleName,
+            p.menu_code as menuCode,
+            p.permission_code as permissionCode
+        FROM
+            sys_user u
+            LEFT JOIN sys_role r ON r.id = u.role_id
+            LEFT JOIN sys_role_permission rp ON u.role_id = rp.role_id
+            LEFT JOIN sys_permission p ON rp.permission_id = p.id
+        WHERE
+            u.username =  #{username}
+            AND u.status = 1
+    </select>
+
+    <resultMap id="userInfoMap" type="One2Many">
+        <id column="userId" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="roleId" property="roleId"/>
+        <result column="roleName" property="roleName"/>
+        <collection property="menuList" ofType="String">
+            <id column="menuCode" property="menuCode"/>
+        </collection>
+        <collection property="permissionList" ofType="String">
+            <id column="permissionCode" property="permissionCode"/>
+        </collection>
+    </resultMap>
+
 </mapper>

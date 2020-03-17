@@ -1,24 +1,21 @@
 package com.leeyunt.clonemtnet.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.leeyunt.clonemtnet.constant.CommonConstant;
 import com.leeyunt.clonemtnet.dao.RoleDao;
 import com.leeyunt.clonemtnet.dao.UserDao;
-import com.leeyunt.clonemtnet.entity.Role;
 import com.leeyunt.clonemtnet.entity.User;
 import com.leeyunt.clonemtnet.jwt.JwtTokenUtil;
+import com.leeyunt.clonemtnet.security.UserDetailImpl;
 import com.leeyunt.clonemtnet.security.UserDetailServiceImpl;
 import com.leeyunt.clonemtnet.service.UserService;
 import com.leeyunt.clonemtnet.utils.ResultUtil;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.Optional;
 
 /**
  * <p>
@@ -58,11 +55,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
                     /*用户名密码验证通过 生成token返回*/
                     UserDetails userDetails = userDetailService.loadUserByUsername(username);
                     String token = String.format("%s %s", CommonConstant.TOKEN_PREFIX, jwtTokenUtil.generateToken(userDetails));
-                    HashMap<String, String> hashMap = new HashMap<>();
-                    hashMap.put("user_id", String.valueOf(user.getId()));
-                    hashMap.put("username", user.getUsername());
-                    hashMap.put("token", token);
-                    return ResultUtil.ofSuccess(hashMap);
+                    HashMap<String, String> data = new HashMap<>();
+//                    data.put("userId", String.valueOf(user.getId()));
+//                    data.put("username", user.getUsername());
+                    data.put("token", token);
+                    return ResultUtil.ofSuccess(data);
                 }else {
                     return ResultUtil.ofFailMsg("密码错误");
                 }
@@ -74,26 +71,40 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
      * 获取当前登录用户的信息（角色、权限、菜单）
      * */
     @Override
-    public ResultUtil getOneUser(String username) throws UsernameNotFoundException {
-        /*用户信息*/
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("username",username);
-        wrapper.last("limit 1");
-        User user = Optional.ofNullable(userDao.selectOne(wrapper)).orElse(new User());
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("userInfo", user);
-        /*用户角色*/
-        if(ObjectUtils.isNotEmpty(user.getRoleId())){
-            QueryWrapper<Role> ew = new QueryWrapper<>();
-            ew.eq("id",user.getRoleId());
-            ew.last("limit 1");
-            Role role = Optional.ofNullable(roleDao.selectOne(ew)).orElse(new Role());
-            hashMap.put("role", role);
-        }
-        /*用户权限*/
-        /*用户菜单*/
-        return ResultUtil.ofSuccess(hashMap);
+    public ResultUtil getUserInfo() {
+        /*1、从spring security上下文获取username*/
+        UserDetailImpl userDetail = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetail.getUser().getUsername();
+        /*2、根据username去获取此用户信息*/
+        Object userInfo = userDao.getUserInfo(username);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("userInfo", userInfo);
+        /*3、返回用户的信息）*/
+        return ResultUtil.ofSuccess(data);
     }
+
+
+//    @Override
+//    public ResultUtil getOneUser(String username) throws UsernameNotFoundException {
+//        /*用户信息*/
+//        QueryWrapper<User> wrapper = new QueryWrapper<>();
+//        wrapper.eq("username",username);
+//        wrapper.last("limit 1");
+//        User user = Optional.ofNullable(userDao.selectOne(wrapper)).orElse(new User());
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("userInfo", user);
+//        /*用户角色*/
+//        if(ObjectUtils.isNotEmpty(user.getRoleId())){
+//            QueryWrapper<Role> ew = new QueryWrapper<>();
+//            ew.eq("id",user.getRoleId());
+//            ew.last("limit 1");
+//            Role role = Optional.ofNullable(roleDao.selectOne(ew)).orElse(new Role());
+//            hashMap.put("role", role);
+//        }
+//        /*用户权限*/
+//        /*用户菜单*/
+//        return ResultUtil.ofSuccess(hashMap);
+//    }
 
 //    /**
 //     * 登录检查

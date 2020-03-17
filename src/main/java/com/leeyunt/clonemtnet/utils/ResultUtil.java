@@ -21,7 +21,7 @@ public class ResultUtil implements Serializable {
     /**
      * 返回状态码
      */
-    private Integer code;//状态码，成功；1、失败；0
+    private Integer code;//状态码，成功；200、失败；-1
 
     /**
      * 返回消息

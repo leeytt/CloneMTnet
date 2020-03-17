@@ -53,11 +53,10 @@ public class UserAuthController {
     /**
      * 获取当前登录用户的信息（角色、权限、菜单）
      */
-    @GetMapping("/getUserInfo")
+    @PostMapping("/getUserInfo")
     @ApiOperation(value="获取用户信息",notes="登录成功后获取用户信息（角色、权限、菜单）")
-    @ApiImplicitParam(name = "username", value = "用户名", defaultValue = "admin", required = true)
-    public ResultUtil getUserInfo(@RequestParam("username") String username) {
-        return userService.getOneUser(username);
+    public ResultUtil getUserInfo() {
+        return userService.getUserInfo();
     }
 
     /**
