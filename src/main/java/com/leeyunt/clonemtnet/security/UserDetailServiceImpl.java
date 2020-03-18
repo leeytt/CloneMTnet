@@ -30,7 +30,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Resource
     private RoleDao roleDao;
-
     /**
      * 根据用户名查找User
      */
@@ -50,9 +49,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
             ew.last("limit 1");
             Role role = Optional.ofNullable(roleDao.selectOne(ew)).orElse(new Role());
             userDetail.setRole(role);
-//            List<Role> roles = Optional.ofNullable(roleDao.selectList(ew)).orElse(new ArrayList<>());
-//            userDetail.setRoleList(roles);
         }
+        /*获取当前登录用户的信息（角色、权限、菜单）*/
+//        JSONObject userInfo = userDao.getUserInfo(username);
+//        userDetail.setUserInfo(userInfo);
+
         return userDetail;
     }
 }

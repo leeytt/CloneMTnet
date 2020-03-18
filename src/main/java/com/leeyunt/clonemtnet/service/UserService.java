@@ -20,6 +20,11 @@ public interface UserService extends IService<User> {
 
     /**
      * 获取当前登录用户的信息（角色、权限、菜单）
-     * */
+     */
     ResultUtil getUserInfo();
+
+    /**
+     * 登出
+     */
+    ResultUtil logout();
 }

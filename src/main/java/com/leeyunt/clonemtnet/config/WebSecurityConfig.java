@@ -31,7 +31,7 @@ import java.util.List;
 
 @EnableConfigurationProperties(value = {IgnoreUrlsSecurityConfig.class})
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled=true) //允许开启security的方法级别的安全
+@EnableGlobalMethodSecurity(prePostEnabled=true) //允许开启security的方法级别的安全(保证post之前的注解可以使用)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -55,13 +55,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * 主要进行验证的地方
+     */
     @Override
     protected void configure( AuthenticationManagerBuilder auth ) throws Exception {
         auth.userDetailsService( userDetailService ).passwordEncoder( new BCryptPasswordEncoder() );//密码编码工具,非常方便的实现密码的加密加盐
     }
 
     /**
-     * HTTP请求安全处理
+     * HTTP请求安全处理(拦截在这配)
      * @param httpSecurity
      * @throws Exception
      */
@@ -106,7 +109,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 /*未登录,如果未登录,会进入restAuthenticationEntryPoint中,(排除白名单之外的接口)*/
                 .authenticationEntryPoint(restAuthenticationEntryPoint())
                 .and()
-                /*使用前文自定义的 Token过滤器*/
+                /*使用前文自定义的 Token过滤器jwt*/
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.headers().cacheControl();

@@ -1,5 +1,7 @@
 package com.leeyunt.clonemtnet.jwt;
 
+import com.leeyunt.clonemtnet.exception.BaseException;
+import com.leeyunt.clonemtnet.exception.StatusEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -76,6 +78,7 @@ public class JwtTokenUtil {
                     .getBody();
         } catch (Exception e) {
             log.info("JWT格式验证失败:{}", token);
+            throw new BaseException(StatusEnum.ERROR_20010);
         }
         return claims;
     }

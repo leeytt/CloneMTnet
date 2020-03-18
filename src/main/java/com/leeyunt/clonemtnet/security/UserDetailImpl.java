@@ -1,5 +1,6 @@
 package com.leeyunt.clonemtnet.security;
 
+import com.alibaba.fastjson.JSONObject;
 import com.leeyunt.clonemtnet.entity.Role;
 import com.leeyunt.clonemtnet.entity.User;
 import lombok.Data;
@@ -32,13 +33,13 @@ public class UserDetailImpl implements UserDetails {
     private Role role;
 
     /**
-     * 用户角色列表
+     * 菜单、权限列表
      */
-    private List<Role> roleList;
+    private JSONObject userInfo;
 
 
     /**
-     * 返回角色列表(暂定为权限),名称
+     * 返回角色菜单、权限列表
      * @return
      */
     @Override
@@ -61,21 +62,25 @@ public class UserDetailImpl implements UserDetails {
         return this.user.getUsername();
     }
 
+    /*账户是否未过期,过期无法验证*/
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /*指定用户是否解锁,锁定的用户无法进行身份验证*/
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /*指示是否已过期的用户的凭据(密码),过期的凭据防止认证*/
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /*是否可用,禁用的用户不能身份验证*/
     @Override
     public boolean isEnabled() {
         return true;

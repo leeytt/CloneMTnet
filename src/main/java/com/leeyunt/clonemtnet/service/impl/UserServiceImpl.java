@@ -2,9 +2,9 @@ package com.leeyunt.clonemtnet.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.leeyunt.clonemtnet.constant.CommonConstant;
-import com.leeyunt.clonemtnet.dao.RoleDao;
 import com.leeyunt.clonemtnet.dao.UserDao;
 import com.leeyunt.clonemtnet.entity.User;
+import com.leeyunt.clonemtnet.exception.StatusEnum;
 import com.leeyunt.clonemtnet.jwt.JwtTokenUtil;
 import com.leeyunt.clonemtnet.security.UserDetailImpl;
 import com.leeyunt.clonemtnet.security.UserDetailServiceImpl;
@@ -29,9 +29,6 @@ import java.util.HashMap;
 public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserService {
     @Resource
     private UserDao userDao;
-
-    @Resource
-    private RoleDao roleDao;
 
     @Resource
     private UserDetailServiceImpl userDetailService;
@@ -81,6 +78,15 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         data.put("userInfo", userInfo);
         /*3、返回用户的信息）*/
         return ResultUtil.ofSuccess(data);
+    }
+
+    /**
+     * 登出
+     */
+    @Override
+    public ResultUtil logout() {
+        SecurityContextHolder.clearContext();
+        return ResultUtil.ofStatusCode(StatusEnum.OK_200);
     }
 
 

@@ -1,6 +1,5 @@
 package com.leeyunt.clonemtnet.dao;
 
-import com.alibaba.fastjson.JSONObject;
 import com.leeyunt.clonemtnet.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +23,7 @@ class UserDaoTest {
 
     @Test
     void getUserInfoTest() {
-        JSONObject userInfo = userDao.getUserInfo("aaa");
+        Object userInfo = userDao.getUserInfo("aaa");
         System.out.println(userInfo);
     }
 }

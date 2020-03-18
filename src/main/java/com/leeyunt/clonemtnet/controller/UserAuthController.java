@@ -45,7 +45,7 @@ public class UserAuthController {
             @ApiImplicitParam(name = "username", value = "账号", defaultValue = "admin", required = true),
             @ApiImplicitParam(name = "password", value = "密码", defaultValue = "123456", required = true)
     })
-	public ResultUtil getByUsernamePasswordLogin(@RequestParam("username") String username, @RequestParam("password") String password){
+	public ResultUtil getByUsernamePasswordLogin(String username, String password){
         /*登录检查*/
         return userService.checkLogin(username, password);
 	}
@@ -62,6 +62,11 @@ public class UserAuthController {
     /**
      * 登出
      */
+    @PostMapping("/logout")
+    @ApiOperation(value="登出",notes="登出系统")
+    public ResultUtil logout() {
+        return userService.logout();
+    }
 
 
 //    /**
