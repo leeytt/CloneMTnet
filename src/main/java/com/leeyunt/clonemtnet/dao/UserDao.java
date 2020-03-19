@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leeyunt.clonemtnet.entity.User;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 运营后台用户表 Mapper 接口
@@ -23,4 +26,25 @@ public interface UserDao extends BaseMapper<User> {
      * @return
      */
     JSONObject getUserInfo(String username);
+
+    /**
+     * 获取用户列表
+     */
+    List<User> listUser();
+
+    /**
+     * 根据id查询用户
+     */
+    User findById(Integer id);
+
+    /**
+     * 根据map动态查询
+     */
+    List<User> dynamicSelect(Map<String, Object> map);
+
+    /**
+     * 根据map查询总记录数
+     */
+    long getUserCount(Map<String, Object> map);
+
 }

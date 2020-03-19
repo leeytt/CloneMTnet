@@ -12,5 +12,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-01-02
  */
 public interface RoleDao extends BaseMapper<Role> {
-
+    /**
+     * 根据id查询角色
+     */
+    Role findById(Integer id);
 }
