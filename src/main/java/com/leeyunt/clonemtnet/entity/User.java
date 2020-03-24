@@ -71,4 +71,5 @@ public class User implements Serializable {
     @ApiModelProperty(value = "是否有效  1有效  0无效")
     private Boolean status;
 
+    private Role role; //角色
 }

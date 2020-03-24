@@ -99,21 +99,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     }
 
     /**
-     * 获取用户列表
-     */
-    @Override
-    public ResultUtil listUser() {
-        List<User> list = userDao.listUser();
-        if (list != null) {
-            HashMap<String, Object> data = new HashMap<>();
-            data.put("list", list);
-            return ResultUtil.ofSuccess(data);
-        }else {
-          return ResultUtil.ofFailMsg("未能获取到数据");
-        }
-    }
-
-    /**
      * 添加用户
      */
     @Override
@@ -142,26 +127,36 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
      */
     @Override
     public ResultUtil updateUserById(Integer id, String username, String password, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status) {
-        if (null == userDao.selectById(id)) {
-            return ResultUtil.ofFailMsg("ID不存在");
-        } else {
-            if (null != userDao.findByUsername(username)) {
-                return ResultUtil.ofFailMsg("用户名已存在");
-            }
-            User user = new User();
-            user.setId(id);
-            comParam(username, password, nickname, roleId, headimgUrl, phone, email, birthday, sex, status, user);
-            try {
-                int res = userDao.updateById(user);
-                if (res == 1) {
-                    return ResultUtil.ofSuccessMsg("更新成功");
+        User u = userDao.findById(id);
+        if (null !=u) {
+            if (u.getUsername().equals(username)) {
+                return dynamicUpdateUserCode(id, username, password, nickname, roleId, headimgUrl, phone, email, birthday, sex, status);
+            } else {// 修改了用户名
+                if (null != userDao.findByUsername(username)) {
+                    return ResultUtil.ofFailMsg("用户名已存在");
                 } else {
-                    return ResultUtil.ofFailMsg("更新失败");
+                    return dynamicUpdateUserCode(id, username, password, nickname, roleId, headimgUrl, phone, email, birthday, sex, status);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return ResultUtil.ofFailMsg("dynamicUpdateUser出错！");
             }
+        } else {
+            return ResultUtil.ofFailMsg("ID不存在");
+        }
+    }
+
+    private ResultUtil dynamicUpdateUserCode(Integer id, String username, String password, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status) {
+        User user = new User();
+        user.setId(id);
+        comParam(username, password, nickname, roleId, headimgUrl, phone, email, birthday, sex, status, user);
+        try {
+            int res = userDao.dynamicUpdate(user);
+            if (res == 1) {
+                return ResultUtil.ofSuccessMsg("更新成功");
+            } else {
+                return ResultUtil.ofFailMsg("更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultUtil.ofFailMsg("dynamicUpdateUser出错！");
         }
     }
 
@@ -172,13 +167,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     public ResultUtil getUserById(Integer id) {
         User user = userDao.findById(id);
         if (null != user) {
-            HashMap<String, Object> data = new HashMap<>();
-            data.put("user", user);
             if (null != user.getRoleId()) {
                 Role role = roleDao.findById(user.getRoleId());
-                data.put("role", role);
+                user.setRole(role);
             }
-            return ResultUtil.ofSuccess(data);
+            return ResultUtil.ofSuccess(user);
         }
         return ResultUtil.ofFailMsg("未能获取id=" + id + "的数据");
     }
@@ -187,18 +180,20 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
      * 动态查询
      */
     @Override
-    public ResultUtil selectUser(Integer id, String username, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize) {
+    public ResultUtil selectUser(Integer id, String username, String password, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize) {
         Map<String, Object> map = new HashMap<>();
         if (null != id)
             map.put("id", id);
         if (null!= username)
             map.put("username", username);
+        if (null!= password)
+            map.put("password", password);
         if (null!= nickname)
             map.put("nickname", nickname);
         if (null!= roleId)
-            map.put("role_id", roleId);
+            map.put("roleId", roleId);
         if (null!= headimgUrl)
-            map.put("headimg_url", headimgUrl);
+            map.put("headimgUrl", headimgUrl);
         if (null!= phone)
             map.put("phone", phone);
         if (null!= email)
@@ -216,12 +211,21 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
             map.put("pageSize", pageSize);
         }
         try {
-            List<User> list = userDao.dynamicSelect(map);
             long count = userDao.getUserCount(map);
             if (count ==0 ) {
                 return ResultUtil.ofFailMsg("未查询到结果");
             }
+            List<User> list = userDao.dynamicSelect(map);
             HashMap<String, Object> data = new HashMap<>();
+            if (null != list) {
+                for (User user: list) {
+                    Integer role_id= userDao.findById(user.getId()).getRoleId();
+                    if (null != role_id) {
+                        Role role = roleDao.findById(role_id);
+                        user.setRole(role);
+                    }
+                }
+            }
             pageSize = null != pageSize ? pageSize : (int) (count);
             pageNow = null != pageNow ? pageNow : 1;
             if (pageSize != 0) {

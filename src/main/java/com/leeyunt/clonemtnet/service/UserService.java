@@ -31,11 +31,6 @@ public interface UserService extends IService<User> {
     ResultUtil logout();
 
     /**
-     * 获取用户列表
-     */
-    ResultUtil listUser();
-
-    /**
      * 添加用户
      */
     ResultUtil addUser(String username, String password, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status);
@@ -53,5 +48,5 @@ public interface UserService extends IService<User> {
     /**
      * 动态查询
      */
-    ResultUtil selectUser(Integer id, String username, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize);
+    ResultUtil selectUser(Integer id, String username, String password, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize);
 }

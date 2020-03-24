@@ -28,15 +28,6 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 获取用户列表
-     */
-    @GetMapping("/list")
-    @ApiOperation(value = "获取列表", notes = "获取用户列表")
-    public ResultUtil listUser(){
-        return userService.listUser();
-    }
-
-    /**
      * 动态查询
      */
     @PostMapping("/selectUser")
@@ -44,6 +35,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "用户ID"),
             @ApiImplicitParam(name = "username", value = "用户名"),
+            @ApiImplicitParam(name = "password", value = "密码"),
             @ApiImplicitParam(name = "nickname", value = "昵称"),
             @ApiImplicitParam(name = "roleId", value = "角色ID"),
             @ApiImplicitParam(name = "headimgUrl", value = "头像url"),
@@ -56,14 +48,21 @@ public class UserController {
             @ApiImplicitParam(name = "desc", value = "排序方式", defaultValue = "1"),
             @ApiImplicitParam(name = "pageNow", value = "页码", defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "分页大小", defaultValue = "10")})
-    public ResultUtil selectUser(Integer id, String username, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize) {
+    public ResultUtil selectUser(Integer id, String username, String password, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize) {
         if (null != orderByCase) {
             if (desc == null) {
                 desc = false;
             }
             orderByCase += desc ? " desc" : " asc";
+        } else {
+            orderByCase = "create_time";
+            if (desc == null) {
+                desc = false;
+            }
+            orderByCase += desc ? " desc" : " asc";
         }
-        return userService.selectUser(id, username, nickname, roleId, headimgUrl, phone, email, birthday, sex, status, orderByCase, desc, pageNow, pageSize);
+        System.out.println(orderByCase);
+        return userService.selectUser(id, username, password, nickname, roleId, headimgUrl, phone, email, birthday, sex, status, orderByCase, desc, pageNow, pageSize);
     }
 
     /**
@@ -73,8 +72,8 @@ public class UserController {
     @ApiOperation(value = "添加用户", notes = "添加记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", defaultValue = "user01", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", defaultValue = "123456", required = true),
-            @ApiImplicitParam(name = "nickname", value = "昵称", defaultValue = "普通用户"),
+            @ApiImplicitParam(name = "password", value = "密码", defaultValue = "123456"),
+            @ApiImplicitParam(name = "nickname", value = "昵称", defaultValue = "用户01"),
             @ApiImplicitParam(name = "roleId", value = "角色ID"),
             @ApiImplicitParam(name = "headimgUrl", value = "头像url"),
             @ApiImplicitParam(name = "phone", value = "手机号"),
@@ -83,11 +82,9 @@ public class UserController {
             @ApiImplicitParam(name = "sex", value = "性别"),
             @ApiImplicitParam(name = "status", value = "状态")})
     public ResultUtil addUser(String username, String password, String nickname, Integer roleId, String headimgUrl, String phone, String email, LocalDate birthday, Boolean sex, Boolean status) {
-        if (username.isEmpty()) {
-            return ResultUtil.ofFailMsg("用户名username不能为空");
-        }
-        if (password.isEmpty()) {
-            return ResultUtil.ofFailMsg("密码password不能为空");
+        //不提供密码,123456为默认密码
+        if (null == password) {
+            password = "123456";
         }
         return userService.addUser(username, password, nickname, roleId, headimgUrl, phone, email, birthday, sex, status);
     }
@@ -119,20 +116,20 @@ public class UserController {
     /**
      * 根据id查询用户
      */
-    @GetMapping("/{id}")
+    @GetMapping("/getUser")
     @ApiOperation(value = "根据id查询", notes = "根据id查询记录")
     @ApiImplicitParam(name = "id", value = "用户id", required = true)
-    public ResultUtil getUserById(@PathVariable("id") Integer id) {
+    public ResultUtil getUserById(Integer id) {
         return userService.getUserById(id);
     }
 
     /**
      * 根据id删除用户
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/removeUser")
     @ApiOperation(value = "根据id删除", notes = "根据id删除记录")
     @ApiImplicitParam(name = "id", value = "用户id", required = true)
-    public ResultUtil deleteUserById(@PathVariable("id") Integer id) {
+    public ResultUtil removeUserById(Integer id) {
         try {
             boolean res = userService.removeById(id);
             if (res) {

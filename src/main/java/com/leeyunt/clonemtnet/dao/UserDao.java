@@ -27,10 +27,6 @@ public interface UserDao extends BaseMapper<User> {
      */
     JSONObject getUserInfo(String username);
 
-    /**
-     * 获取用户列表
-     */
-    List<User> listUser();
 
     /**
      * 根据id查询用户
@@ -47,4 +43,8 @@ public interface UserDao extends BaseMapper<User> {
      */
     long getUserCount(Map<String, Object> map);
 
+    /**
+     * 根据id动态更新
+     */
+    int dynamicUpdate(User user);
 }

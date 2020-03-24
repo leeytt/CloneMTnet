@@ -10,7 +10,7 @@
 
     <!--根据id查询用户-->
     <select id="findById" parameterType="int" resultType="User">
-        SELECT id,username,nickname,role_id,headImg_url,phone,email,birthday,sex,create_time,update_time,status FROM sys_user WHERE id=#{id}
+        SELECT * FROM sys_user WHERE id=#{id}
     </select>
 
     <!--获取当前登录用户的信息（角色、权限、菜单）-->
@@ -46,56 +46,32 @@
         </collection>
     </resultMap>
 
-    <!-- 获取用户列表 -->
-    <select id="listUser" resultMap="userMap">
-        SELECT
-            u.*,
-            r.role_name roleName
-        FROM
-            (
-            SELECT
-                id userId,
-                username username,
-                nickname nickname,
-                role_id roleId,
-                sex sex,
-                phone phone,
-                email email,
-                STATUS STATUS,
-                DATE_FORMAT( create_time, '%Y-%m-%d %T' ) createTime,
-                DATE_FORMAT( update_time, '%Y-%m-%d %T' ) updateTime
-            FROM
-                sys_user
-            ORDER BY
-                id
-            ) u
-            LEFT JOIN sys_role r ON r.id = u.roleId
-        ORDER BY
-            u.userId
-    </select>
-    <resultMap id="userMap" type="One2Many">
-        <result column="userId" property="userId" />
-        <result column="username" property="username" />
-        <result column="nickname" property="nickname" />
-        <result column="roleId" property="roleId" />
-        <result column="roleName" property="roleName" />
-        <result column="sex" property="sex" />
-        <result column="phone" property="phone" />
-        <result column="email" property="email" />
-        <result column="status" property="status" />
-        <result column="createTime" property="createTime" />
-        <result column="updateTime" property="updateTime" />
-    </resultMap>
+    <!--根据id动态更新-->
+    <update id="dynamicUpdate" parameterType="User">update sys_user
+        <set>
+            <if test="id!=null">id=#{id},</if>
+            <if test="username!=null">username=#{username},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="nickname!=null">nickname=#{nickname},</if>
+            <if test="roleId!=null">role_id=#{roleId},</if>
+            <if test="headimgUrl!=null">headimg_url=#{headimgUrl},</if>
+            <if test="phone!=null">phone=#{phone},</if>
+            <if test="email!=null">email=#{email},</if>
+            <if test="birthday!=null">birthday=#{birthday},</if>
+            <if test="sex!=null">sex=#{sex},</if>
+            <if test="status!=null">status=#{status},</if>
+        </set> where id=#{id}
+    </update>
 
     <!--根据map动态查询-->
-    <select id="dynamicSelect" parameterType="map" resultType="User">
-        select id,username,nickname,role_id,headImg_url,phone,email,birthday,sex,create_time,update_time,status from sys_user
+    <select id="dynamicSelect" parameterType="map" resultType="User">select * from sys_user
         <where>
             <if test="id!=null">and sys_user.id=#{id} </if>
-            <if test="username!=null">and sys_user.username=#{username} </if>
-            <if test="nickname!=null">and sys_user.nickname=#{nickname} </if>
-            <if test="role_id!=null">and sys_user.role_id=#{role_id} </if>
-            <if test="headimg_url!=null">and sys_user.headimg_url=#{headimg_url} </if>
+            <if test="username!=null">and sys_user.username LIKE concat('%',concat(#{username},'%')) </if>
+            <if test="password!=null">and sys_user.password=#{password} </if>
+            <if test="nickname!=null">and sys_user.nickname LIKE concat('%',#{nickname},'%') </if>
+            <if test="roleId!=null">and sys_user.role_id=#{roleId} </if>
+            <if test="headimgUrl!=null">and sys_user.headimg_url=#{headimgUrl} </if>
             <if test="phone!=null">and sys_user.phone=#{phone} </if>
             <if test="email!=null">and sys_user.email=#{email}</if>
             <if test="birthday!=null">and sys_user.birthday=#{birthday} </if>
@@ -111,9 +87,10 @@
         <where>
             <if test="id!=null">and sys_user.id=#{id} </if>
             <if test="username!=null">and sys_user.username=#{username} </if>
+            <if test="password!=null">and sys_user.password=#{password} </if>
             <if test="nickname!=null">and sys_user.nickname=#{nickname} </if>
-            <if test="role_id!=null">and sys_user.role_id=#{role_id} </if>
-            <if test="headimg_url!=null">and sys_user.headimg_url=#{headimg_url} </if>
+            <if test="roleId!=null">and sys_user.role_id=#{roleId} </if>
+            <if test="headimgUrl!=null">and sys_user.headimg_url=#{headimgUrl} </if>
             <if test="phone!=null">and sys_user.phone=#{phone} </if>
             <if test="email!=null">and sys_user.email=#{email}</if>
             <if test="birthday!=null">and sys_user.birthday=#{birthday} </if>
