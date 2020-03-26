@@ -61,7 +61,6 @@ public class UserController {
             }
             orderByCase += desc ? " desc" : " asc";
         }
-        System.out.println(orderByCase);
         return userService.selectUser(id, username, password, nickname, roleId, headimgUrl, phone, email, birthday, sex, status, orderByCase, desc, pageNow, pageSize);
     }
 

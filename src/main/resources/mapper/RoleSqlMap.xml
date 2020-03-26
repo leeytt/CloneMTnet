@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leeyunt.clonemtnet.dao.RoleDao">
-    <cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>
+    <!--<cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>-->
 
     <!--根据id查询用户-->
     <select id="findById" parameterType="int" resultType="Role">
         SELECT * FROM sys_role WHERE id=#{id}
     </select>
 
+    <!--根据map查询总记录数-->
+    <select id="getRoleCount" parameterType="map" resultType="long">select Count(*) from sys_role
+        <where>
+            <if test="id!=null">and sys_role.id=#{id} </if>
+            <if test="roleName!=null">and sys_role.role_name=#{roleName} </if>
+            <if test="description!=null">and sys_role.description=#{description} </if>
+            <if test="status!=null">and sys_role.status=#{status} </if>
+        </where>
+    </select>
+
+    <!--根据map动态查询-->
+    <select id="dynamicSelect" parameterType="map" resultType="Role">select * from sys_role
+        <where>
+            <if test="id!=null">and sys_role.id=#{id} </if>
+            <if test="roleName!=null">and sys_role.role_name LIKE concat('%',concat(#{roleName},'%')) </if>
+            <if test="description!=null">and sys_role.description=#{description} </if>
+            <if test="status!=null">and sys_role.status=#{status} </if>
+        </where>
+        <if test="orderByCase!=null">order by sys_role.${orderByCase}</if>
+        <if test="startPos!=null and pageSize!=null">limit #{startPos},#{pageSize}</if>
+    </select>
+
+    <!--根据角色名去查询-->
+    <select id="findByRoleName" parameterType="string" resultType="Role">
+        SELECT * FROM sys_role WHERE role_name=#{roleName}
+    </select>
+
+    <!--根据id动态更新-->
+    <update id="dynamicUpdate" parameterType="Role">update sys_role
+        <set>
+            <if test="id!=null">id=#{id},</if>
+            <if test="roleName!=null">role_name=#{roleName},</if>
+            <if test="description!=null">description=#{description},</if>
+            <if test="status!=null">status=#{status},</if>
+        </set> where id=#{id}
+    </update>
 </mapper>

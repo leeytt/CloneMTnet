@@ -1,23 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leeyunt.clonemtnet.dao.PermissionDao">
-    <cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>
+    <!--<cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>-->
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="Permission">
-        <result column="id" property="id" />
-        <result column="parentId" property="parentId" />
-        <result column="menu_code" property="menuCode" />
-        <result column="menu_name" property="menuName" />
-        <result column="sort" property="sort" />
-        <result column="permission_code" property="permissionCode" />
-        <result column="permission_name" property="permissionName" />
-        <result column="required_permission" property="requiredPermission" />
-    </resultMap>
+    <!--根据id查询权限-->
+    <select id="findById" parameterType="int" resultType="Permission">
+        SELECT * FROM sys_permission WHERE id=#{id}
+    </select>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, parentId, menu_code, menu_name, sort, permission_code, permission_name, required_permission
-    </sql>
+    <!--根据map查询总记录数-->
+    <select id="getPermissionCount" parameterType="map" resultType="long">select Count(*) from sys_permission
+        <where>
+            <if test="id!=null">and sys_permission.id=#{id} </if>
+            <if test="parentId!=null">and sys_permission.parent_id=#{parentId} </if>
+            <if test="menuCode!=null">and sys_permission.menu_code=#{menuCode} </if>
+            <if test="menuName!=null">and sys_permission.menu_name=#{menuName} </if>
+            <if test="sort!=null">and sys_permission.sort=#{sort} </if>
+            <if test="permissionCode!=null">and sys_permission.permission_code=#{permissionCode} </if>
+            <if test="permissionName!=null">and sys_permission.permission_name=#{permissionName} </if>
+            <if test="requiredPermission!=null">and sys_permission.required_permission=#{requiredPermission} </if>
+        </where>
+    </select>
 
+    <!--根据map动态查询-->
+    <select id="dynamicSelect" parameterType="map" resultType="Permission">select * from sys_permission
+        <where>
+            <if test="id!=null">and sys_permission.id=#{id} </if>
+            <if test="parentId!=null">and sys_permission.parent_id=#{parentId} </if>
+            <if test="menuCode!=null">and sys_permission.menu_code=#{menuCode} </if>
+            <if test="menuName!=null">and sys_permission.menu_name LIKE concat('%',concat(#{menuName},'%')) </if>
+            <if test="sort!=null">and sys_permission.sort=#{sort} </if>
+            <if test="permissionCode!=null">and sys_permission.permission_code=#{permissionCode} </if>
+            <if test="permissionName!=null">and sys_permission.permission_name LIKE concat('%',concat(#{permissionName},'%')) </if>
+            <if test="requiredPermission!=null">and sys_permission.required_permission=#{requiredPermission} </if>
+        </where>
+        <if test="orderByCase!=null">order by sys_permission.${orderByCase}</if>
+        <if test="startPos!=null and pageSize!=null">limit #{startPos},#{pageSize}</if>
+    </select>
+
+    <!--根据id动态更新-->
+    <update id="dynamicUpdate" parameterType="Permission">update sys_permission
+        <set>
+            <if test="id!=null">id=#{id},</if>
+            <if test="parentId!=null">parent_id=#{parentId},</if>
+            <if test="menuCode!=null">menu_code=#{menuCode},</if>
+            <if test="menuName!=null">menu_name=#{menuName},</if>
+            <if test="sort!=null">sort=#{sort},</if>
+            <if test="permissionCode!=null">permission_code=#{permissionCode},</if>
+            <if test="permissionName!=null">permission_name=#{permissionName},</if>
+            <if test="requiredPermission!=null">required_permission=#{requiredPermission},</if>
+        </set> where id=#{id}
+    </update>
+
+    <!--查询总记录数-->
+    <select id="getCount" resultType="long">
+        SELECT Count(*) FROM sys_permission
+    </select>
+
+    <!--获取所有权限-->
+    <select id="findAll" resultType="Permission">
+        SELECT * FROM sys_permission
+    </select>
 </mapper>

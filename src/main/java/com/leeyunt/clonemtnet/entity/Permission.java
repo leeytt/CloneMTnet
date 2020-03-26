@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -33,26 +34,28 @@ public class Permission implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "父权限id ")
-    @TableField("parentId")
+    @TableField("parent_id")
     private Integer parentId;
 
-    @ApiModelProperty(value = "归属菜单,前端判断并展示菜单使用,")
+    @ApiModelProperty(value = "菜单标识")
     private String menuCode;
 
-    @ApiModelProperty(value = "菜单的中文释义")
+    @ApiModelProperty(value = "菜单名称")
     private String menuName;
 
     @ApiModelProperty(value = "分类排序")
     private Integer sort;
 
-    @ApiModelProperty(value = "权限的代码/通配符,对应代码中@RequiresPermissions 的value")
+    @ApiModelProperty(value = "权限标识")
     private String permissionCode;
 
-    @ApiModelProperty(value = "权限的中文释义")
+    @ApiModelProperty(value = "权限名称")
     private String permissionName;
 
-    @ApiModelProperty(value = "是否本菜单必选权限  1必选 0非必选 通常是列表权限是必选")
+    @ApiModelProperty(value = "是否必选权限")
     private Boolean requiredPermission;
 
-
+    //子菜单
+    @TableField(exist=false)
+    private List<Permission> children;
 }
