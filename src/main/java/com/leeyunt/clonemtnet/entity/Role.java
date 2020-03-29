@@ -1,15 +1,19 @@
 package com.leeyunt.clonemtnet.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -46,5 +50,9 @@ public class Role implements Serializable {
     @ApiModelProperty(value = "是否有效  1有效  0无效")
     private Boolean status;
 
+    //权限
+    @TableField(exist=false)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<Permission> permissionList;
 
 }

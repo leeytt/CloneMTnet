@@ -1,7 +1,7 @@
 package com.leeyunt.clonemtnet.dao;
 
-import com.leeyunt.clonemtnet.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leeyunt.clonemtnet.entity.Permission;
 
 import java.util.List;
 import java.util.Map;
@@ -44,4 +44,5 @@ public interface PermissionDao extends BaseMapper<Permission> {
      * 获取所有权限
      */
     List<Permission> findAll();
+
 }

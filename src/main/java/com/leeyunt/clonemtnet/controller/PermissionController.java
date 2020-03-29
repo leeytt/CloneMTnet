@@ -47,6 +47,8 @@ public class PermissionController {
             @ApiImplicitParam(name = "parentId", value = "父权限ID"),
             @ApiImplicitParam(name = "menuCode", value = "菜单标识"),
             @ApiImplicitParam(name = "menuName", value = "菜单名称"),
+            @ApiImplicitParam(name = "icon", value = "图标"),
+            @ApiImplicitParam(name = "type", value = "菜单类型 0为目录，1为菜单，2为按钮 默认0"),
             @ApiImplicitParam(name = "sort", value = "分类排序"),
             @ApiImplicitParam(name = "permissionCode", value = "权限标识"),
             @ApiImplicitParam(name = "permissionName", value = "权限名称"),
@@ -55,7 +57,7 @@ public class PermissionController {
             @ApiImplicitParam(name = "desc", value = "排序方式", defaultValue = "0"),
             @ApiImplicitParam(name = "pageNow", value = "页码", defaultValue = "1"),
             @ApiImplicitParam(name = "pageSize", value = "分页大小", defaultValue = "10")})
-    public ResultUtil selectPermission(Integer id, Integer parentId, String menuCode, String menuName, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize) {
+    public ResultUtil selectPermission(Integer id, Integer parentId, String menuCode, String menuName, String icon, Integer type, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize) {
         if (null != orderByCase) {
             if (desc == null) {
                 desc = false;
@@ -68,7 +70,7 @@ public class PermissionController {
             }
             orderByCase += desc ? " desc" : " asc";
         }
-        return permissionService.selectPermission(id, parentId, menuCode, menuName, sort, permissionCode, permissionName, requiredPermission, orderByCase, desc, pageNow, pageSize);
+        return permissionService.selectPermission(id, parentId, menuCode, menuName, icon, type, sort, permissionCode, permissionName, requiredPermission, orderByCase, desc, pageNow, pageSize);
     }
 
     /**
@@ -78,23 +80,19 @@ public class PermissionController {
     @ApiOperation(value = "添加权限", notes = "添加记录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "parentId", value = "父权限ID", defaultValue = "0", required = true),
-            @ApiImplicitParam(name = "menuCode", value = "菜单标识", required = true),
-            @ApiImplicitParam(name = "menuName", value = "菜单名称", required = true),
+            @ApiImplicitParam(name = "menuCode", value = "菜单标识"),
+            @ApiImplicitParam(name = "menuName", value = "菜单名称"),
+            @ApiImplicitParam(name = "icon", value = "图标"),
+            @ApiImplicitParam(name = "type", value = "菜单类型 0为目录，1为菜单，2为按钮 默认0"),
             @ApiImplicitParam(name = "sort", value = "分类排序"),
             @ApiImplicitParam(name = "permissionCode", value = "权限标识"),
             @ApiImplicitParam(name = "permissionName", value = "权限名称"),
             @ApiImplicitParam(name = "requiredPermission", value = "是否必选权限")})
-    public ResultUtil addPermission(Integer parentId, String menuCode, String menuName, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission) {
+    public ResultUtil addPermission(Integer parentId, String menuCode, String menuName, String icon, Integer type, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission) {
         if (null == parentId) {
             return ResultUtil.ofFailMsg("父权限ID不能为空");
         }
-        if (null == menuCode) {
-            return ResultUtil.ofFailMsg("菜单标识不能为空");
-        }
-        if (null == menuName) {
-            return ResultUtil.ofFailMsg("菜单名称不能为空");
-        }
-        return permissionService.addPermission(parentId, menuCode, menuName, sort, permissionCode, permissionName, requiredPermission);
+        return permissionService.addPermission(parentId, menuCode, menuName, icon, type, sort, permissionCode, permissionName, requiredPermission);
     }
 
 
@@ -108,15 +106,17 @@ public class PermissionController {
             @ApiImplicitParam(name = "parentId", value = "父权限ID"),
             @ApiImplicitParam(name = "menuCode", value = "菜单标识"),
             @ApiImplicitParam(name = "menuName", value = "菜单名称"),
+            @ApiImplicitParam(name = "icon", value = "图标"),
+            @ApiImplicitParam(name = "type", value = "菜单类型 0为目录，1为菜单，2为按钮 默认0"),
             @ApiImplicitParam(name = "sort", value = "分类排序"),
             @ApiImplicitParam(name = "permissionCode", value = "权限标识"),
             @ApiImplicitParam(name = "permissionName", value = "权限名称"),
             @ApiImplicitParam(name = "requiredPermission", value = "是否必选权限")})
-    public ResultUtil updatePermissionById(Integer id, Integer parentId, String menuCode, String menuName, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission) {
+    public ResultUtil updatePermissionById(Integer id, Integer parentId, String menuCode, String menuName, String icon, Integer type, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission) {
         if (null == id) {
             return ResultUtil.ofFailMsg("权限id不能为空");
         }
-        return permissionService.updatePermissionById(id, parentId, menuCode, menuName, sort, permissionCode, permissionName, requiredPermission);
+        return permissionService.updatePermissionById(id, parentId, menuCode, menuName, icon, type, sort, permissionCode, permissionName, requiredPermission);
     }
 
     /**
@@ -156,4 +156,23 @@ public class PermissionController {
     public ResultUtil selectPermissionTree(){
         return permissionService.selectPermissionTree();
     }
+
+    /**
+     * 保存角色的权限
+     */
+    @PostMapping("/updatePermissionTree")
+    @ApiOperation(value="保存权限树",notes="保存权限树")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "角色ID", required = true),
+            @ApiImplicitParam(name = "menus", value = "菜单id列表", required = true)})
+    public ResultUtil updatePermissionTree(Integer id, Integer[] menus){
+        if (null == id) {
+            return ResultUtil.ofFailMsg("角色id不能为空");
+        }
+        if (null == menus) {
+            return ResultUtil.ofFailMsg("菜单列表不能为空");
+        }
+        return permissionService.updatePermissionTree(id, menus);
+    }
+
 }

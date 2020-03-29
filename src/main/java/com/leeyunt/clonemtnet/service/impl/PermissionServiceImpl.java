@@ -2,7 +2,9 @@ package com.leeyunt.clonemtnet.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.leeyunt.clonemtnet.dao.PermissionDao;
+import com.leeyunt.clonemtnet.dao.RolePermissionDao;
 import com.leeyunt.clonemtnet.entity.Permission;
+import com.leeyunt.clonemtnet.entity.RolePermission;
 import com.leeyunt.clonemtnet.exception.StatusEnum;
 import com.leeyunt.clonemtnet.service.PermissionService;
 import com.leeyunt.clonemtnet.utils.Page;
@@ -28,11 +30,14 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
     @Resource
     private PermissionDao permissionDao;
 
+    @Resource
+    private RolePermissionDao rolePermissionDao;
+
     /**
      * 动态查询
      */
     @Override
-    public ResultUtil selectPermission(Integer id, Integer parentId, String menuCode, String menuName, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize) {
+    public ResultUtil selectPermission(Integer id, Integer parentId, String menuCode, String menuName, String icon, Integer type, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission, String orderByCase, Boolean desc, Integer pageNow, Integer pageSize) {
         Map<String, Object> map = new HashMap<>();
         if (null != id)
             map.put("id", id);
@@ -42,6 +47,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
             map.put("menuCode", menuCode);
         if (null!= menuName)
             map.put("menuName", menuName);
+        if (null!= icon)
+            map.put("icon", icon);
+        if (null!= type)
+            map.put("type", type);
         if (null!= sort)
             map.put("sort", sort);
         if (null!= permissionCode)
@@ -86,11 +95,13 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
      * 添加权限
      */
     @Override
-    public ResultUtil addPermission(Integer parentId, String menuCode, String menuName, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission) {
+    public ResultUtil addPermission(Integer parentId, String menuCode, String menuName, String icon, Integer type, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission) {
         Permission permission = new Permission();
         permission.setParentId(parentId);
         permission.setMenuCode(menuCode);
         permission.setMenuName(menuName);
+        permission.setIcon(icon);
+        permission.setType(type);
         permission.setSort(sort);
         permission.setPermissionCode(permissionCode);
         permission.setPermissionName(permissionName);
@@ -112,13 +123,15 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
      * 动态更新权限
      */
     @Override
-    public ResultUtil updatePermissionById(Integer id, Integer parentId, String menuCode, String menuName, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission) {
+    public ResultUtil updatePermissionById(Integer id, Integer parentId, String menuCode, String menuName, String icon, Integer type, Integer sort, String permissionCode, String permissionName, Boolean requiredPermission) {
         Permission permission = permissionDao.findById(id);
         if (null != permission) {
             permission.setId(id);
             permission.setParentId(parentId);
             permission.setMenuCode(menuCode);
             permission.setMenuName(menuName);
+            permission.setIcon(icon);
+            permission.setType(type);
             permission.setSort(sort);
             permission.setPermissionCode(permissionCode);
             permission.setPermissionName(permissionName);
@@ -191,6 +204,32 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionDao, Permission
             return ResultUtil.ofFailMsg("selectPermissionTree出错！");
         }
     }
+
+    /**
+     * 保存角色权限
+     */
+    @Override
+    public ResultUtil updatePermissionTree(Integer id, Integer[] menus) {
+        int count = rolePermissionDao.getCount(id);
+        if (count != 0) {
+            //移除当前角色的所有权限
+            rolePermissionDao.deleteByRoleId(id);
+        }
+        //添加新的权限
+        for (int i = 0; i < menus.length; i++){
+            RolePermission rolePermission = new RolePermission();
+            rolePermission.setRoleId(id);
+            rolePermission.setPermissionId(menus[i]);
+            try {
+                rolePermissionDao.insert(rolePermission);
+            }catch (Exception e) {
+                e.printStackTrace();
+                return ResultUtil.ofFailMsg("保存失败");
+            }
+        }
+        return ResultUtil.ofSuccessMsg("菜单保存成功");
+    }
+
 
     /**
      * <p>寻找子节点</p>

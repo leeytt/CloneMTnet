@@ -1,8 +1,12 @@
 package com.leeyunt.clonemtnet.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.leeyunt.clonemtnet.dao.PermissionDao;
 import com.leeyunt.clonemtnet.dao.RoleDao;
+import com.leeyunt.clonemtnet.dao.RolePermissionDao;
+import com.leeyunt.clonemtnet.entity.Permission;
 import com.leeyunt.clonemtnet.entity.Role;
+import com.leeyunt.clonemtnet.entity.RolePermission;
 import com.leeyunt.clonemtnet.exception.StatusEnum;
 import com.leeyunt.clonemtnet.service.RoleService;
 import com.leeyunt.clonemtnet.utils.Page;
@@ -10,6 +14,7 @@ import com.leeyunt.clonemtnet.utils.ResultUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +31,12 @@ import java.util.Map;
 public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleService {
     @Resource
     private RoleDao roleDao;
+
+    @Resource
+    private RolePermissionDao rolePermissionDao;
+
+    @Resource
+    private PermissionDao permissionDao;
 
     /**
      * 动态查询
@@ -54,6 +65,21 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleS
             }
             List<Role> list = roleDao.dynamicSelect(map);
             HashMap<String, Object> data = new HashMap<>();
+            if (null != list) {
+                for (Role role: list) {
+                    List<Permission> permissions = new ArrayList<>();
+                    List<RolePermission> rolePermissionList = rolePermissionDao.findByRoleId(role.getId());
+                    if (null != rolePermissionList) {
+                        for (RolePermission rolePermission: rolePermissionList) {
+                            Permission permission = permissionDao.findById(rolePermission.getPermissionId());
+                            if (null != permission) {
+                                permissions.add(permission);
+                            }
+                        }
+                    }
+                    role.setPermissionList(permissions);
+                }
+            }
             pageSize = null != pageSize ? pageSize : (int) (count);
             pageNow = null != pageNow ? pageNow : 1;
             if (pageSize != 0) {
@@ -62,6 +88,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleS
                 data.put("page", page);
             }
             if (list.size() > 0) {
+
                 data.put("list", list);
                 return ResultUtil.ofSuccess(data);
             } else {

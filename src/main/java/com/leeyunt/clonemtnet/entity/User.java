@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -71,5 +72,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "是否有效  1有效  0无效")
     private Boolean status;
 
+    @TableField(exist=false)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Role role; //角色
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -43,6 +45,12 @@ public class Permission implements Serializable {
     @ApiModelProperty(value = "菜单名称")
     private String menuName;
 
+    @ApiModelProperty(value = "图标")
+    private String icon;
+
+    @ApiModelProperty(value = "菜单类型 0为目录，1为菜单，2为按钮 默认0")
+    private Integer type;
+
     @ApiModelProperty(value = "分类排序")
     private Integer sort;
 
@@ -55,7 +63,17 @@ public class Permission implements Serializable {
     @ApiModelProperty(value = "是否必选权限")
     private Boolean requiredPermission;
 
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "更新时间")
+    private LocalDateTime updateTime;
+
+    @ApiModelProperty(value = "是否有效  1有效  0无效")
+    private Boolean status;
+
     //子菜单
     @TableField(exist=false)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<Permission> children;
 }

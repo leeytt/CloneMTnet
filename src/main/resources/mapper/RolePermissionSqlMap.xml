@@ -3,4 +3,18 @@
 <mapper namespace="com.leeyunt.clonemtnet.dao.RolePermissionDao">
     <!--<cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>-->
 
+    <!--根据id查询角色权限关系-->
+    <select id="findByRoleId" parameterType="int" resultType="RolePermission">
+        SELECT * FROM sys_role_permission WHERE role_id=#{id}
+    </select>
+
+    <!--根据角色id查询数量-->
+    <select id="getCount" parameterType="int" resultType="int">
+        SELECT Count(*) FROM sys_role_permission WHERE role_id=#{id}
+    </select>
+
+    <!--根据角色id删除所有角色-权限关联-->
+    <delete id="deleteByRoleId" parameterType="int">
+        delete from sys_role_permission where role_id=#{id}
+    </delete>
 </mapper>
