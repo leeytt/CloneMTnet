@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leeyunt.clonemtnet.dao.ProductInfoDao">
+    <!--根据id查询-->
+    <select id="findById" parameterType="int" resultType="ProductInfo">
+        SELECT * FROM product_info WHERE id=#{id}
+    </select>
+
+    <!--根据id动态更新-->
+    <update id="dynamicUpdate" parameterType="ProductInfo">update product_info
+        <set>
+            <if test="id!=null">id=#{id},</if>
+            <if test="productName!=null">product_name=#{productName},</if>
+            <if test="productPrice!=null">product_price=#{productPrice},</if>
+            <if test="productStock!=null">product_stock=#{productStock},</if>
+            <if test="productDescription!=null">product_description=#{productDescription},</if>
+            <if test="productIcon!=null">product_icon=#{productIcon},</if>
+            <if test="productStatus!=null">product_status=#{productStatus},</if>
+            <if test="categoryType!=null">category_type=#{categoryType},</if>
+            <if test="status!=null">status=#{status},</if>
+        </set> where id=#{id}
+    </update>
+
+    <!--根据map动态查询-->
+    <select id="dynamicSelect" parameterType="map" resultType="ProductInfo">select * from product_info
+        <where>
+            <if test="id!=null">and product_info.id=#{id} </if>
+            <if test="productName!=null">and product_info.product_name=#{productName} </if>
+            <if test="productPrice!=null">and product_info.product_price=#{productPrice} </if>
+            <if test="productStock!=null">and product_info.product_stock=#{productStock} </if>
+            <if test="productDescription!=null">and product_info.product_description=#{productDescription} </if>
+            <if test="productIcon!=null">and product_info.product_icon=#{productIcon} </if>
+            <if test="productStatus!=null">and product_info.product_status=#{productStatus} </if>
+            <if test="categoryType!=null">and product_info.category_type=#{categoryType}</if>
+            <if test="status!=null">and product_info.status=#{status} </if>
+        </where>
+        <if test="orderByCase!=null">order by product_info.${orderByCase}</if>
+        <if test="startPos!=null and pageSize!=null">limit #{startPos},#{pageSize}</if>
+    </select>
+
+    <!--根据map查询总记录数-->
+    <select id="getCount" parameterType="map" resultType="long">select Count(*) from product_info
+        <where>
+            <if test="id!=null">and product_info.id=#{id} </if>
+            <if test="productName!=null">and product_info.product_name=#{productName} </if>
+            <if test="productPrice!=null">and product_info.product_price=#{productPrice} </if>
+            <if test="productStock!=null">and product_info.product_stock=#{productStock} </if>
+            <if test="productDescription!=null">and product_info.product_description=#{productDescription} </if>
+            <if test="productIcon!=null">and product_info.product_icon=#{productIcon} </if>
+            <if test="productStatus!=null">and product_info.product_status=#{productStatus} </if>
+            <if test="categoryType!=null">and product_info.category_type=#{categoryType}</if>
+            <if test="status!=null">and product_info.status=#{status} </if>
+        </where>
+    </select>
+
+</mapper>

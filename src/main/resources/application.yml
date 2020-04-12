@@ -32,6 +32,13 @@ security:
   ignore:
     urls:
       - /userAuth/auth
+      - /buyer/product/list
+      - /buyer/order/create
+      - /buyer/order/list
+      - /buyer/order/detail
+      - /buyer/order/candel
+      - /buyer/order/finish
+      - /buyer/order/paid
 
 # jwt 配置
 jwt:

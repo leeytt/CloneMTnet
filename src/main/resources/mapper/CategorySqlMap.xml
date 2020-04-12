@@ -8,6 +8,11 @@
         SELECT * FROM product_category WHERE id=#{id}
     </select>
 
+    <!--根据category_type查询-->
+    <select id="findByType" parameterType="int" resultType="Category">
+        SELECT * FROM product_category WHERE category_type=#{categoryType}
+    </select>
+
     <!--根据id动态更新-->
     <update id="dynamicUpdate" parameterType="Category">update product_category
         <set>

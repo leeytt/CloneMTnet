@@ -15,4 +15,6 @@ public interface CategoryDao extends BaseMapper<Category> {
     Category findById(Integer id);
 
     int dynamicUpdate(Category category);
+
+    Category findByType(Integer categoryType);
 }

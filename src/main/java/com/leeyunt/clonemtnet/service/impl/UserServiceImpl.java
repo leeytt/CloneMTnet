@@ -62,8 +62,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
                     UserDetails userDetails = userDetailService.loadUserByUsername(username);
                     String token = String.format("%s %s", CommonConstant.TOKEN_PREFIX, jwtTokenUtil.generateToken(userDetails));
                     HashMap<String, String> data = new HashMap<>();
-//                    data.put("userId", String.valueOf(user.getId()));
-//                    data.put("username", user.getUsername());
                     data.put("token", token);
                     return ResultUtil.ofSuccess(data);
                 }else {

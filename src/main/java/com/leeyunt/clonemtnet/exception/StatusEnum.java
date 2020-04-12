@@ -11,6 +11,25 @@ import lombok.Getter;
  */
 @Getter
 public enum StatusEnum {
+
+    PARAM_ERROR(1, "参数不正确"),
+
+    PRODUCT_NOT_EXIST(10, "商品不存在"),
+
+    PRODUCT_STOCK_ERROR(11, "商品库存不足"),
+
+    ORDER_STATUS_ERROR(12, "订单状态不正确"),
+
+    ORDER_UPDATE_ERROR(13, "订单更新失败"),
+
+    ORDER_DETAIL_EMPTY(14, "订单中无商品"),
+
+    ORDER_PAY_STATUS_EMPTY(15, "订单支付状态不正确"),
+
+    ORDER_PAID_ERROR(16, "订单支付失败"),
+
+    CART_EMPTY(18, "购物车为空"),
+
     /**
      * 请求成功
      */
@@ -55,7 +74,6 @@ public enum StatusEnum {
      * 登陆已过期，请重新登陆
      */
     ERROR_20011(20011, "登录已过期，请重新登录");
-
 
 
     /**
