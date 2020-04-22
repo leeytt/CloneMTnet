@@ -10,10 +10,7 @@ import com.leeyunt.clonemtnet.entity.dto.CartDto;
 import com.leeyunt.clonemtnet.entity.dto.OrderDto;
 import com.leeyunt.clonemtnet.exception.BaseException;
 import com.leeyunt.clonemtnet.exception.StatusEnum;
-import com.leeyunt.clonemtnet.service.OrderDetailService;
-import com.leeyunt.clonemtnet.service.OrderMasterService;
-import com.leeyunt.clonemtnet.service.OrderService;
-import com.leeyunt.clonemtnet.service.ProductInfoService;
+import com.leeyunt.clonemtnet.service.*;
 import com.leeyunt.clonemtnet.utils.KeyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -47,6 +44,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMasterService orderMasterService;
+
+    @Autowired
+    private PayServive payServive;
 
     @Resource
     private ProductInfoDao productInfoDao;
@@ -92,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
 
         //4. 如果已经支付，需要退款
         if (orderMaster.getPayStatus().equals(1)) {
-            //TODO
+            payServive.refund(orderMaster);
         }
     }
 

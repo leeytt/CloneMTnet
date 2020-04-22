@@ -36,9 +36,16 @@ security:
       - /buyer/order/create
       - /buyer/order/list
       - /buyer/order/detail
-      - /buyer/order/candel
+      - /buyer/order/cancel
       - /buyer/order/finish
       - /buyer/order/paid
+      - /wechat/authorize
+      - /wechat/userInfo
+      - /api/seller.json
+      - /api/ratings.json
+      - /pay/create
+      - /pay/notify
+      - /pay.html
 
 # jwt 配置
 jwt:
@@ -80,3 +87,12 @@ swagger:
 #    console: "%d - %msg%n"
 #  file:
 #    path: /Users/leeyunt/logs/tomcat/
+
+# 微信公众号
+wechat:
+  mpAppId: wx283b9d6511b4ca39
+  mpAppSecret: e60da595e4384cc03b3edf90390aae15
+  mchId: 1558398891
+  mchKey: 1558398891careerai15178927047pay
+  keyPath: /Users/leeyunt/Downloads/h5.p12
+  notifyUrl: http://sell.leeyunt.top/clonemtnet/pay/notify

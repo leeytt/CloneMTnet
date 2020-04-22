@@ -28,6 +28,8 @@ public enum StatusEnum {
 
     ORDER_PAID_ERROR(16, "订单支付失败"),
 
+    ORDER_NOTIFY_MONEY_ERROR(17, "微信支付异步通知金额校验不通过"),
+
     CART_EMPTY(18, "购物车为空"),
 
     /**

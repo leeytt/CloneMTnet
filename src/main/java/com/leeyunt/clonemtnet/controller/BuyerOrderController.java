@@ -45,7 +45,7 @@ public class BuyerOrderController {
     /**
      * 创建订单
      */
-    @PostMapping("create")
+    @PostMapping("/create")
     @ApiOperation(value = "创建订单", notes = "创建订单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "name", value = "姓名", required = true),
@@ -83,7 +83,7 @@ public class BuyerOrderController {
     /**
      * 查询订单列表
      */
-    @GetMapping("list")
+    @GetMapping("/list")
     @ApiOperation(value = "查询订单列表", notes = "查询订单列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "openid", value = "买家微信openid", required = true),
@@ -102,7 +102,7 @@ public class BuyerOrderController {
     /**
      * 查询订单详情
      */
-    @GetMapping("detail")
+    @GetMapping("/detail")
     @ApiOperation(value = "查询订单详情", notes = "查询订单详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "openid", value = "买家微信openid", required = true),
@@ -125,7 +125,7 @@ public class BuyerOrderController {
     /**
      * 取消订单
      */
-    @PostMapping("cancel")
+    @PostMapping("/cancel")
     @ApiOperation(value = "取消订单", notes = "取消订单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "openid", value = "买家微信openid", required = true),
@@ -146,7 +146,7 @@ public class BuyerOrderController {
     /**
      * 完结订单
      */
-    @PostMapping("finish")
+    @PostMapping("/finish")
     @ApiOperation(value = "完结订单", notes = "完结订单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "openid", value = "买家微信openid", required = true),
@@ -167,7 +167,7 @@ public class BuyerOrderController {
     /**
      * 支付订单
      */
-    @PostMapping("paid")
+    @PostMapping("/paid")
     @ApiOperation(value = "支付订单", notes = "支付订单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "openid", value = "买家微信openid", required = true),

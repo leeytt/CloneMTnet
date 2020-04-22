@@ -86,11 +86,11 @@
         </dependency>
 
         <!-- Freemarker模板引擎 -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.28</version>
-        </dependency>
+        </dependency>-->
 
         <!-- mybatis-plus代码生成器 依赖 -->
         <dependency>
@@ -157,6 +157,24 @@
             <artifactId>gson</artifactId>
         </dependency>
 
+        <!-- 微信公众号 SDK-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+
+        <!-- 微信支付 SDK -->
+        <dependency>
+            <groupId>cn.springboot</groupId>
+            <artifactId>best-pay-sdk</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
