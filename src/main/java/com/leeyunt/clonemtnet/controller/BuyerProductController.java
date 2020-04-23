@@ -66,7 +66,7 @@ public class BuyerProductController {
             goodsDto.setFoodsDtoList(foodsDtoList);
             goodsDtoList.add(goodsDto);
         }
-//        return ResultUtil.ofSuccess(goodsDtoList);
-        return ResultUtil.of(0,"成功" ,goodsDtoList);
+        return ResultUtil.ofSuccess(goodsDtoList);
+//        return ResultUtil.of(0,"成功" ,goodsDtoList);
     }
 }

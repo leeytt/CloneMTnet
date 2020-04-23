@@ -8,6 +8,7 @@ import com.leeyunt.clonemtnet.service.OrderMasterService;
 import com.leeyunt.clonemtnet.service.PayServive;
 import com.lly835.bestpay.model.PayResponse;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,7 @@ public class PayController {
      * 统一下单
      */
     @GetMapping("/create")
+    @ApiOperation(value = "统一下单", notes = "微信统一下单接口")
     public ModelAndView create(@RequestParam("orderId") String orderId,
                                @RequestParam("returnUrl") String returnUrl,
                                Map<String, Object> map) {
@@ -62,6 +64,7 @@ public class PayController {
      * @return
      */
     @PostMapping("/notify")
+    @ApiOperation(value = "异步通知", notes = "微信异步消息通知")
     public ModelAndView notify(@RequestBody String notifyDate) {
         payServive.notify(notifyDate);
 

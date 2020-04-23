@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leeyunt.clonemtnet.dao.OrderMasterDao">
+    <!--根据order_id查询-->
+    <select id="findById" parameterType="int" resultType="OrderMaster">
+        SELECT * FROM order_master WHERE order_id=#{orderId}
+    </select>
+
+    <!--根据order_id动态更新-->
+    <update id="dynamicUpdate" parameterType="OrderMaster">update order_master
+        <set>
+            <if test="orderId!=null">order_id=#{orderId},</if>
+            <if test="buyerName!=null">buyer_name=#{buyerName},</if>
+            <if test="buyerPhone!=null">buyer_phone=#{buyerPhone},</if>
+            <if test="buyerAddress!=null">buyer_address=#{buyerAddress},</if>
+            <if test="buyerOpenid!=null">buyer_openid=#{buyerOpenid},</if>
+            <if test="orderAmount!=null">order_amount=#{orderAmount},</if>
+            <if test="orderStatus!=null">order_status=#{orderStatus},</if>
+            <if test="payStatus!=null">pay_status=#{payStatus},</if>
+            <if test="status!=null">status=#{status},</if>
+        </set> where order_id=#{orderId}
+    </update>
+
+    <!--根据map动态查询-->
+    <select id="dynamicSelect" parameterType="map" resultType="com.leeyunt.clonemtnet.entity.dto.OrderDto">select * from order_master
+        <where>
+            <if test="orderId!=null">and order_master.order_id=#{orderId} </if>
+            <if test="buyerName!=null">and order_master.buyer_name=#{buyerName} </if>
+            <if test="buyerPhone!=null">and order_master.buyer_phone=#{buyerPhone} </if>
+            <if test="buyerAddress!=null">and order_master.buyer_address=#{buyerAddress} </if>
+            <if test="buyerOpenid!=null">and order_master.buyer_openid=#{buyerOpenid} </if>
+            <if test="orderAmount!=null">and order_master.order_amount=#{orderAmount} </if>
+            <if test="orderStatus!=null">and order_master.order_status=#{orderStatus} </if>
+            <if test="payStatus!=null">and order_master.pay_status=#{payStatus}</if>
+            <if test="status!=null">and order_master.status=#{status} </if>
+        </where>
+        <if test="orderByCase!=null">order by order_master.${orderByCase}</if>
+        <if test="startPos!=null and pageSize!=null">limit #{startPos},#{pageSize}</if>
+    </select>
+
+    <!--根据map查询总记录数-->
+    <select id="getCount" parameterType="map" resultType="long">select Count(*) from order_master
+        <where>
+            <if test="orderId!=null">and order_master.order_id=#{orderId} </if>
+            <if test="buyerName!=null">and order_master.buyer_name=#{buyerName} </if>
+            <if test="buyerPhone!=null">and order_master.buyer_phone=#{buyerPhone} </if>
+            <if test="buyerAddress!=null">and order_master.buyer_address=#{buyerAddress} </if>
+            <if test="buyerOpenid!=null">and order_master.buyer_openid=#{buyerOpenid} </if>
+            <if test="orderAmount!=null">and order_master.order_amount=#{orderAmount} </if>
+            <if test="orderStatus!=null">and order_master.order_status=#{orderStatus} </if>
+            <if test="payStatus!=null">and order_master.pay_status=#{payStatus}</if>
+            <if test="status!=null">and order_master.status=#{status} </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,6 +1,7 @@
 package com.leeyunt.clonemtnet.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -23,7 +24,7 @@ import java.net.URLEncoder;
  * @since 2020-04-12
  */
 @Slf4j
-@Api(tags = "微信网页接口")
+@Api(tags = "微信网页授权")
 @Controller
 @RequestMapping("/wechat")
 public class WechatController {
@@ -34,6 +35,7 @@ public class WechatController {
      * 构造微信网页授权url
      */
     @GetMapping("/authorize")
+    @ApiOperation(value = "微信授权", notes = "微信网页授权接口")
     public String authorize(@RequestParam("returnUrl") String returnUrl) {
         String url = "http://sell.leeyunt.top/clonemtnet/wechat/userInfo";
         //构造网页授权url，获取code
@@ -47,6 +49,7 @@ public class WechatController {
      * 获取用户微信信息
      */
     @GetMapping("/userInfo")
+    @ApiOperation(value = "获取微信用户信息", notes = "获取微信用户信息")
     public String userInfo(@RequestParam("code") String code,
                          @RequestParam("state") String returnUrl) throws WxErrorException {
         //获得access token，取得openid

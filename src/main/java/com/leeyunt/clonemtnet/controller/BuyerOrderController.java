@@ -76,8 +76,8 @@ public class BuyerOrderController {
         OrderDto dto =  orderService.create(orderDto);//创建订单
         Map<String,String> map = new HashMap<>();
         map.put("orderId", String.valueOf(dto.getOrderId()));
-        return ResultUtil.of(0, "成功", map);
-//        return ResultUtil.ofSuccess(dto);
+//        return ResultUtil.of(0, "成功", map);
+        return ResultUtil.ofSuccess(map);
     }
 
     /**
@@ -95,8 +95,8 @@ public class BuyerOrderController {
             throw new BaseException(-1, "openid为空");
         }
         List<OrderMaster> orderMasterList= orderService.list(openid, page, size);
-        return ResultUtil.of(0, "成功", orderMasterList);
-//        return ResultUtil.ofSuccess(orderDtoList);
+//        return ResultUtil.of(0, "成功", orderMasterList);
+        return ResultUtil.ofSuccess(orderMasterList);
     }
 
     /**
@@ -117,8 +117,8 @@ public class BuyerOrderController {
             throw new BaseException(-1, "orderId为空");
         }
         OrderDto orderDto = orderService.detail(openid, orderId);
-        return ResultUtil.of(0, "成功", orderDto);
-//        return ResultUtil.ofSuccess(orderDto);
+//        return ResultUtil.of(0, "成功", orderDto);
+        return ResultUtil.ofSuccess(orderDto);
     }
 
 
@@ -140,7 +140,7 @@ public class BuyerOrderController {
             throw new BaseException(-1, "orderId为空");
         }
         orderService.cancel(openid, orderId);
-        return ResultUtil.of(0, "成功",null);
+        return ResultUtil.of(200, "成功",null);
     }
 
     /**
@@ -161,7 +161,7 @@ public class BuyerOrderController {
             throw new BaseException(-1, "orderId为空");
         }
         orderService.finish(openid, orderId);
-        return ResultUtil.of(0, "成功",null);
+        return ResultUtil.of(200, "成功",null);
     }
 
     /**
@@ -182,6 +182,6 @@ public class BuyerOrderController {
             throw new BaseException(-1, "orderId为空");
         }
         orderService.paid(openid, orderId);
-        return ResultUtil.of(0, "成功",null);
+        return ResultUtil.of(200, "成功",null);
     }
 }
