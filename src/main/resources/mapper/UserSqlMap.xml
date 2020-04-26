@@ -20,6 +20,7 @@
             u.username,
             u.nickname,
             u.role_id as roleId,
+            u.headImg_url as headImgUrl,
             r.role_name as roleName,
             p.menu_code as menuCode,
             p.permission_code as permissionCode
@@ -37,6 +38,7 @@
         <result column="username" property="username"/>
         <result column="nickname" property="nickname"/>
         <result column="roleId" property="roleId"/>
+        <result column="headImgUrl" property="headImgUrl"/>
         <result column="roleName" property="roleName"/>
         <collection property="menuList" ofType="String">
             <id column="menuCode" property="menuCode"/>

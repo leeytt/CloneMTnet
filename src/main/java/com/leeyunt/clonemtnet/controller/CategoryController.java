@@ -73,4 +73,23 @@ public class CategoryController {
         return categoryService.updateCategoryById(id, categoryType, categoryName, status);
     }
 
+    /**
+     * 根据id删除商品类目
+     */
+    @DeleteMapping("/removeCategory")
+    @ApiOperation(value = "根据id删除", notes = "根据id删除记录")
+    @ApiImplicitParam(name = "id", value = "商品类目ID", required = true)
+    public ResultUtil removeCategoryById(Integer id) {
+        try {
+            boolean res = categoryService.removeById(id);
+            if (res) {
+                return ResultUtil.ofSuccessMsg("删除成功");
+            }
+            return ResultUtil.ofFailMsg("删除失败");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResultUtil.ofFailMsg("删除User出错！");
+        }
+    }
+
 }
