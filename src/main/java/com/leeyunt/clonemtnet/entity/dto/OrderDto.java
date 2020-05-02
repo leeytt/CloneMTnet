@@ -1,5 +1,6 @@
 package com.leeyunt.clonemtnet.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.leeyunt.clonemtnet.entity.OrderDetail;
 import lombok.Data;
@@ -34,8 +35,10 @@ public class OrderDto {
 
     private Integer payStatus;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private LocalDateTime createTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private LocalDateTime updateTime;
 
     private Boolean status;
